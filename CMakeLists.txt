@@ -5,4 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(konkurs main.cpp
         individual.cpp
-        individual.h)
+        individual.h
+        evaluator.cpp
+        evaluator.h)

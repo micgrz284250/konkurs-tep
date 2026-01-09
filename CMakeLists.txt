@@ -7,4 +7,5 @@ add_executable(konkurs main.cpp
         individual.cpp
         individual.h
         evaluator.cpp
-        evaluator.h)
+        evaluator.h
+        constants.h)

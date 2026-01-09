@@ -12,8 +12,9 @@
 
 class individual {
 public:
-    individual();
-    explicit individual(const evaluator& eval);
+    explicit individual(evaluator& eval);
+
+    ~individual();
 
     std::vector<int>& get_genotype();
 
@@ -25,7 +26,10 @@ public:
 private:
     std::vector<int> genotype;
     evaluator* eval;
+    std::mt19937 seed;
     std::uniform_int_distribution<int> dist;
+    int localizations;
+    int groups;
 };
 
 #endif //KONKURS_INDIVIDUAL_H

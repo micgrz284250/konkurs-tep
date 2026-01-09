@@ -7,6 +7,10 @@
 
 
 class evaluator {
+public:
+    evaluator();
+
+    evaluate
 };
 
 

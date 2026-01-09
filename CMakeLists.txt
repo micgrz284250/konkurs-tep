@@ -8,4 +8,6 @@ add_executable(konkurs main.cpp
         individual.h
         evaluator.cpp
         evaluator.h
-        constants.h)
+        constants.h
+        smart_pointer/my_smart_pointer.h
+        smart_pointer/ref_counter.h)

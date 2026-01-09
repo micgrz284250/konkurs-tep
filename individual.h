@@ -9,12 +9,11 @@
 #include <vector>
 
 #include "evaluator.h"
+#include "smart_pointer/my_smart_pointer.h"
 
 class individual {
 public:
     explicit individual(evaluator& eval);
-
-    ~individual();
 
     std::vector<int>& get_genotype();
 
@@ -25,9 +24,10 @@ public:
     std::vector<individual> cross(const individual& ind);
 private:
     std::vector<int> genotype;
-    evaluator* eval;
+    my_smart_pointer<evaluator> eval;
     std::mt19937 seed;
-    std::uniform_int_distribution<int> dist;
+    std::uniform_int_distribution<int> dist_int;
+    std::uniform_real_distribution<double> dist_double;
     int localizations;
     int groups;
 };

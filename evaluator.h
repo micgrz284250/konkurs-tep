@@ -5,12 +5,13 @@
 #ifndef KONKURS_EVALUATOR_H
 #define KONKURS_EVALUATOR_H
 
+#include <vector>
 
 class evaluator {
 public:
     evaluator();
 
-    evaluate
+    double evaluate(const std::vector<int>& genotype);
 };
 
 

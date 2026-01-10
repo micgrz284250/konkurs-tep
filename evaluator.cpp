@@ -3,3 +3,7 @@
 //
 
 #include "evaluator.h"
+
+double evaluator::evaluate(const std::vector<int> &genotype) {
+    return 0.0;
+}

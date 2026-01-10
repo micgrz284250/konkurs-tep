@@ -25,11 +25,11 @@ public:
 private:
     std::vector<int> genotype;
     my_smart_pointer<evaluator> eval;
-    std::mt19937 seed;
-    std::uniform_int_distribution<int> dist_int;
-    std::uniform_real_distribution<double> dist_double;
+
     int localizations;
     int groups;
+
+    std::mt19937 rng;
 };
 
 #endif //KONKURS_INDIVIDUAL_H

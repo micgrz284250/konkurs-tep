@@ -11,25 +11,32 @@
 #include "evaluator.h"
 #include "smart_pointer/my_smart_pointer.h"
 
+using namespace std;
+
 class individual {
 public:
     explicit individual(evaluator& eval);
+    individual(evaluator& eval, const vector<int>& genotype, int localizations, int groups);
 
-    std::vector<int>& get_genotype();
+    vector<int>& get_genotype();
+    void set_genotype(const vector<int> &genotype);
+
+    void set_localizations(int localizations);
+    void set_groups(int groups);
 
     double evaluate();
 
     void mutate();
 
-    std::vector<individual> cross(const individual& ind);
+    vector<individual> cross(individual& ind);
 private:
-    std::vector<int> genotype;
+    vector<int> genotype;
     my_smart_pointer<evaluator> eval;
 
     int localizations;
     int groups;
 
-    std::mt19937 rng;
+    mt19937 rng;
 };
 
 #endif //KONKURS_INDIVIDUAL_H

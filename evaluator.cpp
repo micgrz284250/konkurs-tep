@@ -4,6 +4,8 @@
 
 #include "evaluator.h"
 
+evaluator::evaluator() = default;
+
 double evaluator::evaluate(const std::vector<int> &genotype) {
     return 0.0;
 }

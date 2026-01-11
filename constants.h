@@ -5,7 +5,7 @@
 #ifndef KONKURS_CONSTANTS_H
 #define KONKURS_CONSTANTS_H
 
-static const double cross_prob;
-static const double mutation_prob;
+static constexpr double cross_prob = 0.7;
+static constexpr double mutation_prob = 0;
 
 #endif //KONKURS_CONSTANTS_H

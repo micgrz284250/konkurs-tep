@@ -103,7 +103,7 @@ void problem::load_problem(const string& file_path) {
                     space_pos = s_coordinates.find(' ');
                     double x = stod(s_coordinates.substr(0, space_pos));
                     double y = stod(s_coordinates.substr(space_pos + 1));
-                    this->coordinates.push_back(make_tuple(x, y));
+                    this->coordinates.emplace_back(x, y);
                 }
             }
         }

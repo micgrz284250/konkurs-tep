@@ -6,25 +6,73 @@
 
 #include "constants.h"
 
+using namespace std;
 
-individual::individual(evaluator &eval)
-: eval(&eval), rng(std::random_device()()) {
+individual::individual(evaluator &eval) : eval(&eval), rng(random_device()()) {
     this->genotype.clear();
     this->localizations = 0;
     this->groups = 0;
 }
 
-std::vector<int>& individual::get_genotype() {
+individual::individual(evaluator &eval, const vector<int>& genotype, const int localizations, const int groups) : eval(&eval), rng(random_device()()) {
+    this->genotype = genotype;
+    this->localizations = localizations;
+    this->groups = groups;
+}
+
+vector<int>& individual::get_genotype() {
     return this->genotype;
 }
 
+void individual::set_genotype(const vector<int>& genotype) {
+    this->genotype = genotype;
+}
+
+void individual::set_localizations(int localizations) {
+    this->localizations = localizations;
+}
+
+void individual::set_groups(int groups) {
+    this->groups = groups;
+}
+
 void individual::mutate() {
-    std::uniform_real_distribution<double> real_dist(0, 1);
-    std::uniform_int_distribution<int> int_dist(0, groups);
+    uniform_real_distribution<double> real_dist(0, 1);
+    uniform_int_distribution<int> int_dist(0, groups);
 
     for (int& i : genotype) {
         if (real_dist(rng) <= mutation_prob) {
             i = int_dist(rng);
         }
     }
+}
+
+vector<individual> individual::cross(individual &ind) {
+    uniform_real_distribution<double> real_dist(0, 1);
+    uniform_int_distribution<int> int_dist(0, localizations);
+
+    if (real_dist(rng) <= cross_prob) {
+        int split_index = int_dist(rng);
+        vector<int> genotype_1_a(get_genotype().begin(), get_genotype().begin() + split_index);
+        vector<int> genotype_1_b(get_genotype().begin() + split_index, get_genotype().end());
+
+        vector<int> genotype_2_a(ind.get_genotype().begin(), ind.get_genotype().begin() + split_index);
+        vector<int> genotype_2_b(ind.get_genotype().begin() + split_index, ind.get_genotype().end());
+
+        vector<int> genotype_cross_1;
+        genotype_cross_1.insert(genotype_cross_1.end(), genotype_1_a.begin(), genotype_1_a.end());
+        genotype_cross_1.insert(genotype_cross_1.end(), genotype_2_b.begin(), genotype_2_b.end());
+
+        vector<int> genotype_cross_2;
+        genotype_cross_2.insert(genotype_cross_2.end(), genotype_2_a.begin(), genotype_2_a.end());
+        genotype_cross_2.insert(genotype_cross_2.end(), genotype_1_b.begin(), genotype_1_b.end());
+
+        vector<individual> children;
+
+        children.emplace_back(*this->eval, genotype_cross_1, this->localizations, this->groups);
+        children.emplace_back(*this->eval, genotype_cross_2, this->localizations, this->groups);
+
+        return children;
+    }
+    return {};
 }

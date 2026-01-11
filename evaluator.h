@@ -11,7 +11,7 @@ class evaluator {
 public:
     evaluator();
 
-    double evaluate(const std::vector<int>& genotype);
+    static double evaluate(const std::vector<int>& genotype);
 };
 
 

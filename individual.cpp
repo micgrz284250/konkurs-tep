@@ -8,13 +8,13 @@
 
 using namespace std;
 
-individual::individual(evaluator &eval) : eval(&eval), rng(random_device()()) {
+individual::individual(const my_smart_pointer<evaluator>& eval) : eval(eval), rng(random_device()()) {;
     this->genotype.clear();
     this->localizations = 0;
     this->groups = 0;
 }
 
-individual::individual(evaluator &eval, const vector<int>& genotype, const int localizations, const int groups) : eval(&eval), rng(random_device()()) {
+individual::individual(const my_smart_pointer<evaluator>& eval, const vector<int>& genotype, const int localizations, const int groups) : eval(eval), rng(random_device()()) {
     this->genotype = genotype;
     this->localizations = localizations;
     this->groups = groups;
@@ -69,8 +69,8 @@ vector<individual> individual::cross(individual &ind) {
 
         vector<individual> children;
 
-        children.emplace_back(*this->eval, genotype_cross_1, this->localizations, this->groups);
-        children.emplace_back(*this->eval, genotype_cross_2, this->localizations, this->groups);
+        children.emplace_back(this->eval, genotype_cross_1, this->localizations, this->groups);
+        children.emplace_back(this->eval, genotype_cross_2, this->localizations, this->groups);
 
         return children;
     }

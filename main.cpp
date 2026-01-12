@@ -5,13 +5,13 @@
 #include "problem.h"
 
 int main() {
-    // std::string path = "data/lcvrp/Vrp-Set-A/A-n32-k5.lcvrp";
-    // problem prb(path);
+    const std::string path = "../data/lcvrp/Vrp-Set-A/A-n32-k5.lcvrp";
+    problem prb(path);
 
-    auto* e = new evaluator();
+    my_smart_pointer<evaluator> e(new evaluator());
 
-    auto ind_1 = individual(*e);
-    auto ind_2 = individual(*e);
+    auto ind_1 = individual(e);
+    auto ind_2 = individual(e);
     ind_1.set_localizations(4);
     ind_1.set_groups(2);
     ind_2.set_localizations(4);

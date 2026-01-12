@@ -40,7 +40,7 @@ public:
     }
 
     T& operator*() {
-        return(*ptr);
+        return *ptr;
     }
 
     T* operator->() {

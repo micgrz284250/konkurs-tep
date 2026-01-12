@@ -12,9 +12,31 @@ using namespace std;
 class problem {
 public:
     problem();
-    problem(const string& file_path);
+
+    explicit problem(const string& file_path);
 
     void load_problem(const string& file_path);
+
+    string get_name() const;
+
+    int get_dimension() const;
+
+    string get_edge_type() const;
+
+    int get_capacity() const;
+
+    vector<int>& get_permutation_ref();
+
+    vector<int>& get_demands_ref();
+
+    int get_depot() const;
+
+    vector<tuple<double, double>>& get_coordinates_ref();
+
+    double evaluate(const vector<int>& solution, int groups) const;
+
+    double get_distance(int client_1_id, int client_2_id) const;
+
 private:
     string name;
     int dimension;

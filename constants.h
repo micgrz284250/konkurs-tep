@@ -5,7 +5,10 @@
 #ifndef KONKURS_CONSTANTS_H
 #define KONKURS_CONSTANTS_H
 
-static constexpr double cross_prob = 0.7;
-static constexpr double mutation_prob = 0;
+static constexpr double CROSS_PROB = 0.7;
+static constexpr double MUTATION_PROB = 0;
+
+static constexpr double WRONG_SOLUTION_ERROR_CODE = -1.0;
+static constexpr int FILE_NOT_FOUND_ERROR_CODE = -404;
 
 #endif //KONKURS_CONSTANTS_H

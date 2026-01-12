@@ -15,8 +15,9 @@ using namespace std;
 
 class individual {
 public:
-    explicit individual(evaluator& eval);
-    individual(evaluator& eval, const vector<int>& genotype, int localizations, int groups);
+    explicit individual(const my_smart_pointer<evaluator>& eval);
+
+    individual(const my_smart_pointer<evaluator> &eval, const vector<int> &genotype, int localizations, int groups);
 
     vector<int>& get_genotype();
     void set_genotype(const vector<int> &genotype);

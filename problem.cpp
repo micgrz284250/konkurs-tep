@@ -5,7 +5,14 @@
 #include "problem.h"
 
 #include <fstream>
+#include <iostream>
 #include <sstream>
+#include <cmath>
+#include <bits/valarray_after.h>
+
+#include "constants.h"
+
+using namespace std;
 
 problem::problem() {
     this->name = "";
@@ -34,7 +41,10 @@ problem::problem(const string& file_path) {
 void problem::load_problem(const string& file_path) {
     ifstream problem_file(file_path);
 
-    if (!problem_file.is_open()) {}
+    // todo dodać obsługę błędów
+    if (!problem_file.is_open()) {
+        cout << "problem file not found" << endl;
+    }
 
     string line;
     while (getline(problem_file, line)) {
@@ -43,13 +53,6 @@ void problem::load_problem(const string& file_path) {
                 size_t colon_pos = line.find(':');
                 if (colon_pos != string::npos) {
                     this->name = line.substr(colon_pos + 1);
-                    // // remove all kind of whitespaces
-                    // size_t start = name.find_first_not_of(" \t\r\n");
-                    // if (start != string::npos) {
-                    //     name = name.substr(start);
-                    //     size_t end = name.find_last_not_of(" \t\r\n");
-                    //     name = name.substr(0, end + 1);
-                    // }
                 }
             }
             else if (line.find("DIMENSION") != string::npos) {
@@ -108,4 +111,73 @@ void problem::load_problem(const string& file_path) {
             }
         }
     }
+}
+
+string problem::get_name() const {
+    return name;
+}
+
+int problem::get_dimension() const {
+    return dimension;
+}
+
+string problem::get_edge_type() const {
+    return edge_type;
+}
+
+int problem::get_capacity() const {
+    return capacity;
+}
+
+vector<int>& problem::get_permutation_ref() {
+    return permutation;
+}
+
+vector<int>& problem::get_demands_ref() {
+    return demands;
+}
+
+int problem::get_depot() const {
+    return depot;
+}
+
+vector<tuple<double, double>>& problem::get_coordinates_ref() {
+    return coordinates;
+}
+
+double problem::evaluate(const vector<int>& solution, int groups) const {
+    double fitness = 0.0;
+
+    if (solution.size() != dimension) return WRONG_SOLUTION_ERROR_CODE;
+
+    int current_location_id = depot;
+    int goal_location_id;
+    double distance;
+    double group_demand = 0;
+
+    for (int i = 0; i < groups; ++i) {
+        for (int j = 0; j < solution.size(); ++j) {
+            if (solution[j] == i) {
+                goal_location_id = solution[j];
+                distance = get_distance(current_location_id, goal_location_id);
+                fitness += distance;
+                current_location_id = goal_location_id;
+            }
+        }
+        goal_location_id = depot;
+        distance = get_distance(current_location_id, goal_location_id);
+        fitness += distance;
+    }
+
+    return fitness;
+}
+
+double problem::get_distance(int client_1_id, int client_2_id) const {
+    if (edge_type == "EUC_2D") {
+        tuple<double, double> client_1 = coordinates.at(client_1_id);
+        tuple<double, double> client_2 = coordinates.at(client_2_id);
+
+        return sqrt(pow(get<0>(client_1) - get<0>(client_2), 2) + pow(get<1>(client_1) - get<1>(client_2), 2));
+    }
+    return WRONG_SOLUTION_ERROR_CODE;
 }

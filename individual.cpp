@@ -36,12 +36,16 @@ void individual::set_groups(int groups) {
     this->groups = groups;
 }
 
+double individual::evaluate() {
+    return eval->evaluate(genotype, groups);
+}
+
 void individual::mutate() {
     uniform_real_distribution<double> real_dist(0, 1);
     uniform_int_distribution<int> int_dist(0, groups);
 
     for (int& i : genotype) {
-        if (real_dist(rng) <= mutation_prob) {
+        if (real_dist(rng) <= MUTATION_PROB) {
             i = int_dist(rng);
         }
     }
@@ -51,7 +55,7 @@ vector<individual> individual::cross(individual &ind) {
     uniform_real_distribution<double> real_dist(0, 1);
     uniform_int_distribution<int> int_dist(0, localizations);
 
-    if (real_dist(rng) <= cross_prob) {
+    if (real_dist(rng) <= CROSS_PROB) {
         int split_index = int_dist(rng);
         vector<int> genotype_1_a(get_genotype().begin(), get_genotype().begin() + split_index);
         vector<int> genotype_1_b(get_genotype().begin() + split_index, get_genotype().end());

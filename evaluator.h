@@ -7,11 +7,21 @@
 
 #include <vector>
 
+#include "problem.h"
+#include "smart_pointer/my_smart_pointer.h"
+
+using namespace std;
+
 class evaluator {
 public:
-    evaluator();
+    evaluator(const my_smart_pointer<problem>& problem);
 
-    static double evaluate(const std::vector<int>& genotype);
+    double evaluate(const vector<int>& solution, int groups) const;
+
+    double get_distance(int client_1_id, int client_2_id, problem& prb) const;
+
+private:
+    my_smart_pointer<problem> prb;
 };
 
 

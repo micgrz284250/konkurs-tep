@@ -20,9 +20,11 @@ public:
     individual(const my_smart_pointer<evaluator> &eval, const vector<int> &genotype, int localizations, int groups);
 
     vector<int>& get_genotype();
+
     void set_genotype(const vector<int> &genotype);
 
     void set_localizations(int localizations);
+
     void set_groups(int groups);
 
     double evaluate();

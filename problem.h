@@ -33,10 +33,6 @@ public:
 
     vector<tuple<double, double>>& get_coordinates_ref();
 
-    double evaluate(const vector<int>& solution, int groups) const;
-
-    double get_distance(int client_1_id, int client_2_id) const;
-
 private:
     string name;
     int dimension;

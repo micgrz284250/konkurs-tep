@@ -14,7 +14,7 @@ using namespace std;
 
 class evaluator {
 public:
-    evaluator(const my_smart_pointer<problem>& problem);
+    evaluator(my_smart_pointer<problem>& problem);
 
     double evaluate(const vector<int>& solution, int groups) const;
 

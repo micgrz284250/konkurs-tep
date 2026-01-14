@@ -11,8 +11,6 @@ using namespace std;
 
 class problem {
 public:
-    problem();
-
     explicit problem(const string& file_path);
 
     void load_problem(const string& file_path);

@@ -8,15 +8,15 @@
 
 #include "constants.h"
 
-evaluator::evaluator(const my_smart_pointer<problem>& problem) : prb(problem) {
+evaluator::evaluator(my_smart_pointer<problem>& problem) : prb(problem) {
 }
 
 double evaluator::evaluate(const vector<int>& solution, int groups) const {
     double fitness = 0.0;
 
-    if (solution.size() != prb.get_dimension()) return WRONG_SOLUTION_ERROR_CODE;
+    if (solution.size() != prb->) return WRONG_SOLUTION_ERROR_CODE;
 
-    int current_location_id = prb.get_depot();
+    int current_location_id = prb->get_depot();
     int goal_location_id;
     double distance;
     double group_demand = 0;

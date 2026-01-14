@@ -12,4 +12,7 @@ add_executable(konkurs main.cpp
         smart_pointer/my_smart_pointer.h
         smart_pointer/ref_counter.h
         problem.cpp
-        problem.h)
+        problem.h
+        genetic_algorithm.cpp
+        genetic_algorithm.h
+)

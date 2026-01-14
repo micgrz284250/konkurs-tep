@@ -14,15 +14,14 @@ using namespace std;
 
 class evaluator {
 public:
-    evaluator(my_smart_pointer<problem>& problem);
+    explicit evaluator(const my_smart_pointer<problem>& problem);
 
-    double evaluate(const vector<int>& solution, int groups) const;
+    double evaluate(const vector<int>& solution, int groups);
 
-    double get_distance(int client_1_id, int client_2_id, problem& prb) const;
+    double get_distance(int client_1_id, int client_2_id);
 
 private:
     my_smart_pointer<problem> prb;
 };
-
 
 #endif //KONKURS_EVALUATOR_H

@@ -7,23 +7,8 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <cmath>
-#include <bits/valarray_after.h>
-
-#include "constants.h"
 
 using namespace std;
-
-problem::problem() {
-    this->name = "";
-    this->dimension = 0;
-    this->edge_type = "";
-    this->capacity = 0;
-    this->permutation.clear();
-    this->demands.clear();
-    this->depot = 0;
-    this->coordinates.clear();
-}
 
 problem::problem(const string& file_path) {
     this->name = "";
@@ -51,27 +36,19 @@ void problem::load_problem(const string& file_path) {
         if (!line.empty()) {
             if (line.find("NAME") != string::npos) {
                 size_t colon_pos = line.find(':');
-                if (colon_pos != string::npos) {
-                    this->name = line.substr(colon_pos + 1);
-                }
+                if (colon_pos != string::npos) this->name = line.substr(colon_pos + 1);
             }
             else if (line.find("DIMENSION") != string::npos) {
                 size_t colon_pos = line.find(':');
-                if (colon_pos != string::npos) {
-                    this->dimension = stoi(line.substr(colon_pos + 1));
-                }
+                if (colon_pos != string::npos) this->dimension = stoi(line.substr(colon_pos + 1));
             }
             else if (line.find("EDGE_WEIGHT_TYPE") != string::npos) {
                 size_t colon_pos = line.find(':');
-                if (colon_pos != string::npos) {
-                    this->edge_type = line.substr(colon_pos + 1);
-                }
+                if (colon_pos != string::npos) this->edge_type = line.substr(colon_pos + 2);
             }
             else if (line.find("CAPACITY") != string::npos) {
                 size_t colon_pos = line.find(':');
-                if (colon_pos != string::npos) {
-                    this->capacity = stoi(line.substr(colon_pos + 1));
-                }
+                if (colon_pos != string::npos) this->capacity = stoi(line.substr(colon_pos + 1));
             }
             else if (line.find("PERMUTATION") != string::npos) {
                 size_t colon_pos = line.find(':');
@@ -79,9 +56,7 @@ void problem::load_problem(const string& file_path) {
                     string s_permutation = line.substr(colon_pos + 1);
                     stringstream ss(s_permutation);
                     int customer_id;
-                    while (ss >> customer_id) {
-                        this->permutation.push_back(customer_id);
-                    }
+                    while (ss >> customer_id) this->permutation.push_back(customer_id);
                 }
             }
             else if (line.find("DEMAND_SECTION") != string::npos) {

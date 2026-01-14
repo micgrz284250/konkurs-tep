@@ -6,21 +6,28 @@
 #define KONKURS_GENETIC_ALGORITHM_H
 #include "constants.h"
 #include "evaluator.h"
+#include "individual.h"
 #include "smart_pointer/my_smart_pointer.h"
 
+using namespace std;
 
 class genetic_algorithm {
 public:
     genetic_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem>& prb, int groups, int population_size, int round_count, double cross_prob = CROSS_PROB, double mutation_prob = MUTATION_PROB);
 
+    vector<int> simulate();
+
+    void cross(vector<individual> &population);
 private:
     my_smart_pointer<evaluator> eval;
     my_smart_pointer<problem> prb;
+    vector<individual> population;
     int groups;
     int population_size;
     int round_count;
     double cross_prob;
     double mutation_prob;
+    mt19937 rng;
 };
 
 

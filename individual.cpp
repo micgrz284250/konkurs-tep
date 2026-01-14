@@ -14,13 +14,21 @@ individual::individual(const my_smart_pointer<evaluator>& eval) : eval(eval), rn
     this->groups = 0;
 }
 
+individual::individual(const my_smart_pointer<evaluator>& eval, int localizations, int groups) :
+eval(eval),
+rng(random_device()()) {
+    this->genotype.clear();
+    this->localizations = localizations;
+    this->groups = groups;
+}
+
 individual::individual(const my_smart_pointer<evaluator>& eval, const vector<int>& genotype, const int localizations, const int groups) : eval(eval), rng(random_device()()) {
     this->genotype = genotype;
     this->localizations = localizations;
     this->groups = groups;
 }
 
-vector<int>& individual::get_genotype() {
+vector<int>& individual::get_genotype_ref() {
     return this->genotype;
 }
 
@@ -42,7 +50,7 @@ double individual::evaluate() {
 
 void individual::mutate() {
     uniform_real_distribution<double> real_dist(0, 1);
-    uniform_int_distribution<int> int_dist(0, groups);
+    uniform_int_distribution<int> int_dist(0, groups-1);
 
     for (int& i : genotype) {
         if (real_dist(rng) <= MUTATION_PROB) {
@@ -57,11 +65,11 @@ vector<individual> individual::cross(individual &ind) {
 
     if (real_dist(rng) <= CROSS_PROB) {
         int split_index = int_dist(rng);
-        vector<int> genotype_1_a(get_genotype().begin(), get_genotype().begin() + split_index);
-        vector<int> genotype_1_b(get_genotype().begin() + split_index, get_genotype().end());
+        vector<int> genotype_1_a(get_genotype_ref().begin(), get_genotype_ref().begin() + split_index);
+        vector<int> genotype_1_b(get_genotype_ref().begin() + split_index, get_genotype_ref().end());
 
-        vector<int> genotype_2_a(ind.get_genotype().begin(), ind.get_genotype().begin() + split_index);
-        vector<int> genotype_2_b(ind.get_genotype().begin() + split_index, ind.get_genotype().end());
+        vector<int> genotype_2_a(ind.get_genotype_ref().begin(), ind.get_genotype_ref().begin() + split_index);
+        vector<int> genotype_2_b(ind.get_genotype_ref().begin() + split_index, ind.get_genotype_ref().end());
 
         vector<int> genotype_cross_1;
         genotype_cross_1.insert(genotype_cross_1.end(), genotype_1_a.begin(), genotype_1_a.end());
@@ -79,4 +87,12 @@ vector<individual> individual::cross(individual &ind) {
         return children;
     }
     return {};
+}
+
+void individual::initialize_genotype() {
+    uniform_int_distribution<int> int_dist(0, groups-1);
+    this->genotype.clear();
+    for (int i = 0; i < localizations; i++) {
+        genotype.push_back(int_dist(rng));
+    }
 }

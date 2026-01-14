@@ -10,5 +10,6 @@ static constexpr double MUTATION_PROB = 0;
 
 static constexpr double WRONG_SOLUTION_ERROR_CODE = -1.0;
 static constexpr int FILE_NOT_FOUND_ERROR_CODE = -404;
+static constexpr double BASE_FITNESS = -4.0;
 
 #endif //KONKURS_CONSTANTS_H

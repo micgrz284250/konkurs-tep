@@ -15,19 +15,19 @@ public:
 
     void load_problem(const string& file_path);
 
-    string get_name() const;
+    [[nodiscard]] string get_name() const;
 
-    int get_dimension() const;
+    [[nodiscard]] int get_dimension() const;
 
-    string get_edge_type() const;
+    [[nodiscard]] string get_edge_type() const;
 
-    int get_capacity() const;
+    [[nodiscard]] int get_capacity() const;
 
     vector<int>& get_permutation_ref();
 
     vector<int>& get_demands_ref();
 
-    int get_depot() const;
+    [[nodiscard]] int get_depot() const;
 
     vector<tuple<double, double>>& get_coordinates_ref();
 

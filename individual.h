@@ -17,9 +17,11 @@ class individual {
 public:
     explicit individual(const my_smart_pointer<evaluator>& eval);
 
+    individual(const my_smart_pointer<evaluator>& eval, int localizations, int groups);
+
     individual(const my_smart_pointer<evaluator> &eval, const vector<int> &genotype, int localizations, int groups);
 
-    vector<int>& get_genotype();
+    vector<int>& get_genotype_ref();
 
     void set_genotype(const vector<int> &genotype);
 
@@ -32,13 +34,13 @@ public:
     void mutate();
 
     vector<individual> cross(individual& ind);
+
+    void initialize_genotype();
 private:
     vector<int> genotype;
     my_smart_pointer<evaluator> eval;
-
     int localizations;
     int groups;
-
     mt19937 rng;
 };
 

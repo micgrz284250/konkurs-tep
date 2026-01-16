@@ -1,13 +1,13 @@
 #include <iostream>
 
-#include "evaluator/evaluator.hpp"
+#include "evaluator/evaluator_implementation.hpp"
 #include "genetic_algorithm.hpp"
 #include "problem.hpp"
 
 int main() {
     const std::string path = "../data/lcvrp/Vrp-Set-A/A-n32-k5.lcvrp";
     my_smart_pointer<problem> prb(new problem(path));
-    my_smart_pointer<evaluator> eval(new evaluator(prb));
+    my_smart_pointer<evaluator_implementation> eval(new evaluator_implementation(prb));
 
     int groups = 10;
     int round_count = 10;

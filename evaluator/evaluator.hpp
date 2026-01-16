@@ -1,11 +1,9 @@
 //
-// Created by mkgrz on 08.01.2026.
+// Created by micha-grzebielec on 16.01.2026.
 //
 
-#ifndef KONKURS_EVALUATOR_H
-#define KONKURS_EVALUATOR_H
-
-#include <vector>
+#ifndef KONKURS_EVALUATOR_HPP
+#define KONKURS_EVALUATOR_HPP
 
 #include "../problem.hpp"
 #include "../smart_pointer/my_smart_pointer.hpp"
@@ -16,12 +14,13 @@ class evaluator {
 public:
     explicit evaluator(const my_smart_pointer<problem>& problem);
 
-    double evaluate(const vector<int>& solution, int groups);
+    virtual double evaluate() = 0;
 
-    double get_distance(int client_1_id, int client_2_id);
+    virtual ~evaluator() = default;
 
-private:
+protected:
     my_smart_pointer<problem> prb;
 };
 
-#endif //KONKURS_EVALUATOR_H
+
+#endif //KONKURS_EVALUATOR_HPP

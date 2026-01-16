@@ -8,18 +8,18 @@
 #include <random>
 #include <vector>
 
-#include "evaluator/evaluator.hpp"
+#include "evaluator/evaluator_implementation.hpp"
 #include "smart_pointer/my_smart_pointer.hpp"
 
 using namespace std;
 
 class individual {
 public:
-    explicit individual(const my_smart_pointer<evaluator>& eval);
+    explicit individual(const my_smart_pointer<evaluator_implementation>& eval);
 
-    individual(const my_smart_pointer<evaluator>& eval, int localizations, int groups);
+    individual(const my_smart_pointer<evaluator_implementation>& eval, int localizations, int groups);
 
-    individual(const my_smart_pointer<evaluator> &eval, const vector<int> &genotype, int localizations, int groups);
+    individual(const my_smart_pointer<evaluator_implementation> &eval, const vector<int> &genotype, int localizations, int groups);
 
     vector<int>& get_genotype_ref();
 
@@ -38,7 +38,7 @@ public:
     void initialize_genotype();
 private:
     vector<int> genotype;
-    my_smart_pointer<evaluator> eval;
+    my_smart_pointer<evaluator_implementation> eval;
     int localizations;
     int groups;
     mt19937 rng;

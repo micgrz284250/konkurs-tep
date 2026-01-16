@@ -9,7 +9,7 @@
 
 using namespace std;
 
-genetic_algorithm::genetic_algorithm(const my_smart_pointer<evaluator> &eval, const my_smart_pointer<problem> &prb, int groups, int population_size, int round_count, double cross_prob, double mutation_prob) :
+genetic_algorithm::genetic_algorithm(const my_smart_pointer<evaluator_implementation> &eval, const my_smart_pointer<problem> &prb, int groups, int population_size, int round_count, double cross_prob, double mutation_prob) :
 eval(eval),
 prb(prb),
 rng(random_device()()) {

@@ -8,13 +8,13 @@
 
 using namespace std;
 
-individual::individual(const my_smart_pointer<evaluator>& eval) : eval(eval), rng(random_device()()) {;
+individual::individual(const my_smart_pointer<evaluator_implementation>& eval) : eval(eval), rng(random_device()()) {;
     this->genotype.clear();
     this->localizations = 0;
     this->groups = 0;
 }
 
-individual::individual(const my_smart_pointer<evaluator>& eval, int localizations, int groups) :
+individual::individual(const my_smart_pointer<evaluator_implementation>& eval, int localizations, int groups) :
 eval(eval),
 rng(random_device()()) {
     this->genotype.clear();
@@ -22,7 +22,7 @@ rng(random_device()()) {
     this->groups = groups;
 }
 
-individual::individual(const my_smart_pointer<evaluator>& eval, const vector<int>& genotype, const int localizations, const int groups) : eval(eval), rng(random_device()()) {
+individual::individual(const my_smart_pointer<evaluator_implementation>& eval, const vector<int>& genotype, const int localizations, const int groups) : eval(eval), rng(random_device()()) {
     this->genotype = genotype;
     this->localizations = localizations;
     this->groups = groups;

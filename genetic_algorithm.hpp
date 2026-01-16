@@ -4,10 +4,10 @@
 
 #ifndef KONKURS_GENETIC_ALGORITHM_H
 #define KONKURS_GENETIC_ALGORITHM_H
-#include "constants.h"
-#include "evaluator.h"
-#include "individual.h"
-#include "smart_pointer/my_smart_pointer.h"
+#include "constants.hpp"
+#include "evaluator/evaluator.hpp"
+#include "individual.hpp"
+#include "smart_pointer/my_smart_pointer.hpp"
 
 using namespace std;
 

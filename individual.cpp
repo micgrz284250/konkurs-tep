@@ -2,9 +2,9 @@
 // Created by mkgrz on 08.01.2026.
 //
 
-#include "individual.h"
+#include "individual.hpp"
 
-#include "constants.h"
+#include "constants.hpp"
 
 using namespace std;
 

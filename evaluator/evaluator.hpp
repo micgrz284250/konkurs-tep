@@ -7,8 +7,8 @@
 
 #include <vector>
 
-#include "problem.h"
-#include "smart_pointer/my_smart_pointer.h"
+#include "../problem.hpp"
+#include "../smart_pointer/my_smart_pointer.hpp"
 
 using namespace std;
 

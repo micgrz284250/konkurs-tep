@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "evaluator.h"
-#include "genetic_algorithm.h"
-#include "problem.h"
+#include "evaluator/evaluator.hpp"
+#include "genetic_algorithm.hpp"
+#include "problem.hpp"
 
 int main() {
     const std::string path = "../data/lcvrp/Vrp-Set-A/A-n32-k5.lcvrp";

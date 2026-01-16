@@ -8,8 +8,8 @@
 #include <random>
 #include <vector>
 
-#include "evaluator.h"
-#include "smart_pointer/my_smart_pointer.h"
+#include "evaluator/evaluator.hpp"
+#include "smart_pointer/my_smart_pointer.hpp"
 
 using namespace std;
 

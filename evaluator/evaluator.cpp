@@ -2,13 +2,12 @@
 // Created by mkgrz on 08.01.2026.
 //
 
-#include "evaluator.h"
+#include "evaluator.hpp"
 
 #include <cmath>
 #include <iostream>
-#include <ostream>
 
-#include "constants.h"
+#include "../constants.hpp"
 
 evaluator::evaluator(const my_smart_pointer<problem>& problem) : prb(problem) {
 }

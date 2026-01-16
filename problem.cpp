@@ -2,7 +2,7 @@
 // Created by mkgrz on 10.01.2026.
 //
 
-#include "problem.h"
+#include "problem.hpp"
 
 #include <fstream>
 #include <iostream>

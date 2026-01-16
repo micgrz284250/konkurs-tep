@@ -2,7 +2,7 @@
 // Created by micha-grzebielec on 14.01.2026.
 //
 
-#include "genetic_algorithm.h"
+#include "genetic_algorithm.hpp"
 
 #include <iostream>
 #include <ostream>
@@ -65,5 +65,5 @@ void genetic_algorithm::cross(vector<individual>& pop) {
 
     vector<individual> children = pop[parent_1].cross(pop[parent_2]);
 
-    new_population.insert(new_population.end(), children.begin(), children.end());
+    // new_population.insert(new_population.end(), children.begin(), children.end());
 }

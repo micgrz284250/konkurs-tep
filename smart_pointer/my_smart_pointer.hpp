@@ -5,7 +5,7 @@
 #ifndef TEP_5_MY_SMART_POINTER_H
 #define TEP_5_MY_SMART_POINTER_H
 
-#include "../smart_pointer/ref_counter.h"
+#include "../smart_pointer/ref_counter.hpp"
 
 template<typename T>
 class my_smart_pointer {

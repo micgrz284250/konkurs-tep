@@ -2,7 +2,7 @@
 
 #include "evaluator/evaluator_implementation.hpp"
 #include "optimization_algorithm/genetic_algorithm.hpp"
-#include "problem.hpp"
+#include "problem/problem.hpp"
 
 int main() {
     const std::string path = "../data/lcvrp/Vrp-Set-A/A-n32-k5.lcvrp";

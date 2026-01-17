@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "evaluator.hpp"
-#include "../problem.hpp"
+#include "../problem/problem.hpp"
 #include "../smart_pointer/my_smart_pointer.hpp"
 
 using namespace std;

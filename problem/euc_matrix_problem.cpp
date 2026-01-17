@@ -1,8 +1,8 @@
 //
-// Created by mkgrz on 10.01.2026.
+// Created by mkgrz on 17.01.2026.
 //
 
-#include "problem.hpp"
+#include "euc_matrix_problem.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -10,17 +10,7 @@
 
 using namespace std;
 
-problem::problem(const string& file_path) {
-    this->name = "";
-    this->dimension = 0;
-    this->edge_type = "";
-    this->capacity = 0;
-    this->permutation.clear();
-    this->demands.clear();
-    this->depot = 0;
-    this->coordinates.clear();
-
-    load_problem(file_path);
+euc_matrix_problem::euc_matrix_problem(const string& file_path) : problem(file_path) {
 }
 
 void problem::load_problem(const string& file_path) {
@@ -86,36 +76,4 @@ void problem::load_problem(const string& file_path) {
             }
         }
     }
-}
-
-string problem::get_name() const {
-    return name;
-}
-
-int problem::get_dimension() const {
-    return dimension;
-}
-
-string problem::get_edge_type() const {
-    return edge_type;
-}
-
-int problem::get_capacity() const {
-    return capacity;
-}
-
-vector<int>& problem::get_permutation_ref() {
-    return permutation;
-}
-
-vector<int>& problem::get_demands_ref() {
-    return demands;
-}
-
-int problem::get_depot() const {
-    return depot;
-}
-
-vector<tuple<double, double>>& problem::get_coordinates_ref() {
-    return coordinates;
 }

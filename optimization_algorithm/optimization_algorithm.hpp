@@ -7,7 +7,7 @@
 #include <random>
 
 #include "../evaluator/evaluator_implementation.hpp"
-#include "../problem.hpp"
+#include "../problem/problem.hpp"
 #include "../constants.hpp"
 
 class optimization_algorithm {

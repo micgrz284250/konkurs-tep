@@ -7,13 +7,18 @@
 #include <string>
 #include <vector>
 
+#include "../smart_pointer/my_smart_pointer.hpp"
+
 using namespace std;
 
 class problem {
 public:
-    explicit problem(const string& file_path);
+    virtual ~problem() = default;
 
-    void load_problem(const string& file_path);
+    virtual void load_problem(const string& file_path) = 0;
+
+    template <typename T>
+    static my_smart_pointer<T> get_problem(const string& file_path);
 
     [[nodiscard]] string get_name() const;
 
@@ -31,7 +36,10 @@ public:
 
     vector<tuple<double, double>>& get_coordinates_ref();
 
-private:
+protected:
+    problem();
+
+    string file_path;
     string name;
     int dimension;
     string edge_type;

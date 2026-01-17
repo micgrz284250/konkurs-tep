@@ -5,7 +5,7 @@
 #ifndef KONKURS_EVALUATOR_HPP
 #define KONKURS_EVALUATOR_HPP
 
-#include "../problem.hpp"
+#include "../problem/problem.hpp"
 #include "../smart_pointer/my_smart_pointer.hpp"
 
 using namespace std;

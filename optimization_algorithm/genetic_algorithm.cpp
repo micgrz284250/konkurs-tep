@@ -2,23 +2,17 @@
 // Created by micha-grzebielec on 14.01.2026.
 //
 
-#include "../genetic_algorithm.hpp"
 
 #include <iostream>
 #include <ostream>
 
+#include "genetic_algorithm.hpp"
+#include "../evaluator/evaluator_implementation.hpp"
+
 using namespace std;
 
-genetic_algorithm::genetic_algorithm(const my_smart_pointer<evaluator_implementation> &eval, const my_smart_pointer<problem> &prb, int groups, int population_size, int round_count, double cross_prob, double mutation_prob) :
-eval(eval),
-prb(prb),
-rng(random_device()()) {
-    this->groups = groups;
-    this->population_size = population_size;
-    this->round_count = round_count;
-    this->cross_prob = cross_prob;
-    this->mutation_prob = mutation_prob;
-    this->population.clear();
+genetic_algorithm::genetic_algorithm(evaluator_implementation* evaluator, problem* problem, const int groups, const int population_size, const int round_count, const double cross_prob, const double mutation_prob) :
+optimization_algorithm(evaluator, problem, groups, population_size, round_count, cross_prob, mutation_prob) {
 }
 
 vector<int> genetic_algorithm::simulate() {

@@ -4,30 +4,21 @@
 
 #ifndef KONKURS_GENETIC_ALGORITHM_H
 #define KONKURS_GENETIC_ALGORITHM_H
+
+#include "../optimization_algorithm/optimization_algorithm.hpp"
 #include "../constants.hpp"
 #include "../evaluator/evaluator_implementation.hpp"
 #include "../individual.hpp"
-#include "../smart_pointer/my_smart_pointer.hpp"
 
 using namespace std;
 
-class genetic_algorithm {
+class genetic_algorithm : optimization_algorithm {
 public:
-    genetic_algorithm(const my_smart_pointer<evaluator_implementation>& eval, const my_smart_pointer<problem>& prb, int groups, int population_size, int round_count, double cross_prob = CROSS_PROB, double mutation_prob = MUTATION_PROB);
+    genetic_algorithm(evaluator_implementation* evaluator, problem* problem, const int groups, const int population_size, const int round_count, const double cross_prob = CROSS_PROB, const double mutation_prob = MUTATION_PROB);
 
-    vector<int> simulate();
+    vector<int> simulate() override;
 
     void cross(vector<individual> &population);
-private:
-    my_smart_pointer<evaluator_implementation> eval;
-    my_smart_pointer<problem> prb;
-    vector<individual> population;
-    int groups;
-    int population_size;
-    int round_count;
-    double cross_prob;
-    double mutation_prob;
-    mt19937 rng;
 };
 
 

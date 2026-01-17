@@ -2,7 +2,7 @@
 // Created by micha-grzebielec on 14.01.2026.
 //
 
-#include "genetic_algorithm.hpp"
+#include "../genetic_algorithm.hpp"
 
 #include <iostream>
 #include <ostream>

@@ -13,8 +13,10 @@ add_executable(konkurs main.cpp
         smart_pointer/ref_counter.hpp
         problem.cpp
         problem.hpp
-        genetic_algorithm.cpp
-        genetic_algorithm.hpp
+        optimization_algorithm/genetic_algorithm.cpp
+        optimization_algorithm/genetic_algorithm.hpp
         evaluator/evaluator_implementation.cpp
         evaluator/evaluator_implementation.hpp
+        optimization_algorithm/optimization_algorithm.cpp
+        optimization_algorithm/optimization_algorithm.hpp
 )

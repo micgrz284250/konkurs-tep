@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "evaluator/evaluator_implementation.hpp"
-#include "genetic_algorithm.hpp"
+#include "optimization_algorithm/genetic_algorithm.hpp"
 #include "problem.hpp"
 
 int main() {

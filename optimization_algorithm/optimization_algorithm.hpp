@@ -8,24 +8,28 @@
 
 #include "../evaluator/evaluator_implementation.hpp"
 #include "../problem/problem.hpp"
-#include "../constants.hpp"
 
 class optimization_algorithm {
 public:
-    optimization_algorithm(evaluator_implementation* evaluator, problem* problem, const int groups, const int population_size, const int round_count, double cross_prob = CROSS_PROB, double mutation_prob = MUTATION_PROB);
+    optimization_algorithm(evaluator_implementation* evaluator, problem* prb);
 
     virtual ~optimization_algorithm() = default;
 
-    virtual vector<int> simulate() = 0;
+    /// @brief Zwraca optymalny znaleziony wynik dla problemu.
+    ///
+    /// Do działania algorytm musi mieć przypisane:
+    /// 1. implementację ewaluatora <evaluator> — oblicza jakość podanego osobnika
+    /// 2. wybrany problem <problem> — problem, dla którego ma być dokonana optymalizacja
+    ///
+    /// @return vector<int> - wektor optymalnego rozwiązania
+    virtual vector<int> optimize() = 0;
 
+    void set_evaluator_implementation(evaluator_implementation* value);
+
+    void set_problem(problem* value);
 protected:
     my_smart_pointer<evaluator_implementation> eval;
     my_smart_pointer<problem> prb;
-    int groups;
-    int population_size;
-    int round_count;
-    double cross_prob;
-    double mutation_prob;
     mt19937 rng;
 };
 

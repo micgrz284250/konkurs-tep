@@ -14,11 +14,27 @@ using namespace std;
 
 class genetic_algorithm : optimization_algorithm {
 public:
-    genetic_algorithm(evaluator_implementation* evaluator, problem* problem, const int groups, const int population_size, const int round_count, const double cross_prob = CROSS_PROB, const double mutation_prob = MUTATION_PROB);
+    genetic_algorithm(evaluator_implementation* evaluator, problem* problem);
 
-    vector<int> simulate() override;
+    genetic_algorithm(evaluator_implementation* evaluator, problem* problem, int groups, int round_count, int population_count, double cross_prob = CROSS_PROB, double mutation_prob = MUTATION_PROB);
 
     void cross(vector<individual> &population);
+
+    void set_groups(int value);
+
+    void set_round_count(int value);
+
+    void set_population_count(int value);
+
+    void set_cross_prob(double value);
+
+    void set_mutation_prob(double value);
+private:
+    int groups;
+    int round_count;
+    int population_count;
+    double cross_prob;
+    double mutation_prob;
 };
 
 

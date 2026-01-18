@@ -15,21 +15,17 @@ using namespace std;
 
 class individual {
 public:
-    explicit individual(const my_smart_pointer<evaluator_implementation>& eval);
+    individual(int localizations, int groups);
 
-    individual(const my_smart_pointer<evaluator_implementation>& eval, int localizations, int groups);
-
-    individual(const my_smart_pointer<evaluator_implementation> &eval, const vector<int> &genotype, int localizations, int groups);
+    individual(const vector<int> &genotype, int localizations, int groups);
 
     vector<int>& get_genotype_ref();
 
-    void set_genotype(const vector<int> &genotype);
+    void set_genotype(const vector<int> &genotype_);
 
-    void set_localizations(int localizations);
+    [[nodiscard]] double get_fitness() const;
 
-    void set_groups(int groups);
-
-    double evaluate();
+    void evaluate(my_smart_pointer<evaluator_implementation>& eval);
 
     void mutate();
 
@@ -38,9 +34,10 @@ public:
     void initialize_genotype();
 private:
     vector<int> genotype;
-    my_smart_pointer<evaluator_implementation> eval;
     int localizations;
     int groups;
+    double fitness;
+    bool evaluated;
     mt19937 rng;
 };
 

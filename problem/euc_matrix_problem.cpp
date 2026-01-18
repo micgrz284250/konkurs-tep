@@ -10,11 +10,8 @@
 
 using namespace std;
 
-euc_matrix_problem::euc_matrix_problem(const string& file_path) : problem(file_path) {
-}
-
-void problem::load_problem(const string& file_path) {
-    ifstream problem_file(file_path);
+void problem::load_problem(const string& path) {
+    ifstream problem_file(path);
 
     // todo dodać obsługę błędów
     if (!problem_file.is_open()) {

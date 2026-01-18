@@ -21,9 +21,9 @@ problem::problem() {
 }
 
 template<typename T>
-my_smart_pointer<T> problem::get_problem(const string& file_path) {
+my_smart_pointer<T> problem::get_problem(const string& path) {
     auto prb = my_smart_pointer<T>(new T());
-    prb->load_problem(file_path);
+    prb->load_problem(path);
     return prb;
 }
 

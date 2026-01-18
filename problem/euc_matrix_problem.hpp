@@ -9,7 +9,7 @@
 using namespace std;
 
 class euc_matrix_problem : problem {
-    explicit euc_matrix_problem(const string& file_path);
+    void load_problem(const string& path) override;
 };
 
 

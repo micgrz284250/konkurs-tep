@@ -11,11 +11,47 @@
 
 using namespace std;
 
-genetic_algorithm::genetic_algorithm(evaluator_implementation* evaluator, problem* problem, const int groups, const int population_size, const int round_count, const double cross_prob, const double mutation_prob) :
-optimization_algorithm(evaluator, problem, groups, population_size, round_count, cross_prob, mutation_prob) {
+genetic_algorithm::genetic_algorithm(evaluator_implementation* evaluator, problem* problem) :
+optimization_algorithm(evaluator, problem) {
+    this->groups = 0;
+    this->round_count = 0;
+    this->population_count = 0;
+    this->cross_prob = CROSS_PROB;
+    this->mutation_prob = MUTATION_PROB;
 }
 
-vector<int> genetic_algorithm::simulate() {
+genetic_algorithm::genetic_algorithm(evaluator_implementation *evaluator, problem *problem, const int groups, const int round_count, const int population_count, const double cross_prob, const double mutation_prob) :
+optimization_algorithm(evaluator, problem) {
+    this->groups = groups;
+    this->round_count = round_count;
+    this->population_count = population_count;
+    this->cross_prob = cross_prob;
+    this->mutation_prob = mutation_prob;
+}
+
+void genetic_algorithm::set_groups(const int value) {
+    this->groups = value;
+}
+
+void genetic_algorithm::set_round_count(const int value) {
+    this->round_count = value;
+}
+
+void genetic_algorithm::set_population_count(const int value) {
+    this->population_count = value;
+}
+
+void genetic_algorithm::set_cross_prob(const double value) {
+    this->cross_prob = value;
+}
+
+void genetic_algorithm::set_mutation_prob(const double value) {
+    this->mutation_prob = value;
+}
+
+vector<int> genetic_algorithm::optimize(const int groups, const int population_size, const int round_count, const double cross_prob, const double mutation_prob) {
+    vector<individual> population;
+
     // inicjalizacja każdego osobnika
     for (int i = 0; i < population_size; i++) {
         population.emplace_back(eval, prb->get_dimension(), groups);

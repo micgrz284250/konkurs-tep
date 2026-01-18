@@ -27,10 +27,14 @@ public:
     void set_evaluator_implementation(evaluator_implementation* value);
 
     void set_problem(problem* value);
+
+    void set_groups(int value);
 protected:
     my_smart_pointer<evaluator_implementation> eval;
     my_smart_pointer<problem> prb;
     mt19937 rng;
+
+    int groups;
 };
 
 

@@ -25,7 +25,9 @@ public:
 
     [[nodiscard]] double get_fitness() const;
 
-    void evaluate(my_smart_pointer<evaluator_implementation>& eval);
+    void evaluate(my_smart_pointer<evaluator_implementation>& eval, my_smart_pointer<problem>& prb);
+
+    [[nodiscard]] bool is_evaluated() const;
 
     void mutate();
 

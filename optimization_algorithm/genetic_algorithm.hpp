@@ -16,25 +16,26 @@ class genetic_algorithm : optimization_algorithm {
 public:
     genetic_algorithm(evaluator_implementation* evaluator, problem* problem);
 
-    genetic_algorithm(evaluator_implementation* evaluator, problem* problem, int groups, int round_count, int population_count, double cross_prob = CROSS_PROB, double mutation_prob = MUTATION_PROB);
-
-    void cross(vector<individual> &population);
-
-    void set_groups(int value);
+    genetic_algorithm(evaluator_implementation* evaluator, problem* problem, int groups, int round_count, int population_size, double cross_prob = CROSS_PROB, double mutation_prob = MUTATION_PROB);
 
     void set_round_count(int value);
 
-    void set_population_count(int value);
+    void set_population_size(int value);
 
     void set_cross_prob(double value);
 
     void set_mutation_prob(double value);
+
+    vector<int> optimize() override;
 private:
-    int groups;
     int round_count;
-    int population_count;
+    int population_size;
     double cross_prob;
     double mutation_prob;
+
+    vector<individual> cross(vector<individual> &population);
+
+    individual& get_parent_candidate_ref(vector<individual>& population);
 };
 
 

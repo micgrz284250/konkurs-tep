@@ -38,9 +38,13 @@ double individual::get_fitness() const {
     return fitness;
 }
 
-void individual::evaluate(my_smart_pointer<evaluator_implementation>& eval) {
-    fitness = eval->evaluate(genotype, groups);
+void individual::evaluate(my_smart_pointer<evaluator_implementation>& eval, my_smart_pointer<problem>& prb) {
+    fitness = eval->evaluate(genotype, prb, groups);
     evaluated = true;
+}
+
+bool individual::is_evaluated() const {
+    return evaluated;
 }
 
 void individual::mutate() {
@@ -56,7 +60,7 @@ void individual::mutate() {
 
 vector<individual> individual::cross(individual &ind) {
     uniform_real_distribution<double> real_dist(0, 1);
-    uniform_int_distribution<int> int_dist(0, localizations);
+    uniform_int_distribution int_dist(0, localizations);
 
     if (real_dist(rng) <= CROSS_PROB) {
         const int split_index = int_dist(rng);

@@ -12,14 +12,9 @@ using namespace std;
 
 class evaluator {
 public:
-    explicit evaluator(const my_smart_pointer<problem>& problem);
-
-    virtual double evaluate() = 0;
+    virtual double evaluate(vector<int>& solution, my_smart_pointer<problem>& prb, int groups) = 0;
 
     virtual ~evaluator() = default;
-
-protected:
-    my_smart_pointer<problem> prb;
 };
 
 

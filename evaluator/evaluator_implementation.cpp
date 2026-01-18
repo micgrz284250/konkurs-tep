@@ -9,10 +9,7 @@
 
 #include "../constants.hpp"
 
-evaluator_implementation::evaluator_implementation(const my_smart_pointer<problem>& problem) : evaluator(problem) {
-}
-
-double evaluator_implementation::evaluate(const vector<int>& solution, const int groups) {
+double evaluator_implementation::evaluate(vector<int>& solution, my_smart_pointer<problem>& prb, const int groups) {
     double fitness = 0.0;
 
     if (solution.size() != prb->get_dimension()) return WRONG_SOLUTION_ERROR_CODE;
@@ -26,7 +23,7 @@ double evaluator_implementation::evaluate(const vector<int>& solution, const int
         for (int j = 0; j < solution.size(); j++) {
             if (solution[j] == i) {
                 goal_location_id = prb->get_permutation_ref()[j];
-                distance = get_distance(current_location_id, goal_location_id);
+                distance = get_distance(prb, current_location_id, goal_location_id);
                 fitness += distance;
                 current_location_id = goal_location_id;
                 group_demand += prb->get_demands_ref()[current_location_id];
@@ -37,7 +34,7 @@ double evaluator_implementation::evaluate(const vector<int>& solution, const int
             }
         }
         goal_location_id = prb->get_depot();
-        distance = get_distance(current_location_id, goal_location_id);
+        distance = get_distance(prb, current_location_id, goal_location_id);
         fitness += distance;
         group_demand = 0;
     }
@@ -45,7 +42,7 @@ double evaluator_implementation::evaluate(const vector<int>& solution, const int
     return fitness;
 }
 
-double evaluator_implementation::get_distance(const int client_1_id, const int client_2_id) {
+double evaluator_implementation::get_distance(my_smart_pointer<problem>& prb, const int client_1_id, const int client_2_id) {
     if (prb->get_edge_type() == "EUC_2D") {
         const tuple<double, double> client_1 = prb->get_coordinates_ref()[client_1_id];
         const tuple<double, double> client_2 = prb->get_coordinates_ref()[client_2_id];

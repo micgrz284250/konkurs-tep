@@ -3,6 +3,3 @@
 //
 
 #include "evaluator.hpp"
-
-evaluator::evaluator(const my_smart_pointer<problem> &problem) : prb(problem) {
-}

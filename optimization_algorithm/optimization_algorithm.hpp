@@ -34,7 +34,7 @@ public:
     /// 2. wybrany problem <problem> — problem, dla którego ma być dokonana optymalizacja
     ///
     /// @return vector<int> - wektor optymalnego rozwiązania
-    virtual vector<int> optimize() = 0;
+    [[nodiscard]] virtual vector<int> optimize() = 0;
 
     void set_evaluator(my_smart_pointer<evaluator> &value) {
         eval = my_smart_pointer(value);

@@ -17,7 +17,7 @@ rng(random_device()()) {
     this->evaluated = false;
 }
 
-individual::individual(const vector<int>& genotype, const int localizations, const int groups) :
+individual::individual(const vector<int> &genotype, const int localizations, const int groups) :
 rng(random_device()()) {
     this->genotype = genotype;
     this->localizations = localizations;
@@ -30,15 +30,15 @@ vector<int>& individual::get_genotype_ref() {
     return this->genotype;
 }
 
-void individual::set_genotype(const vector<int>& genotype_) {
-    this->genotype = genotype_;
+void individual::set_genotype(const vector<int> &value) {
+    this->genotype = value;
 }
 
 double individual::get_fitness() const {
     return fitness;
 }
 
-void individual::evaluate(my_smart_pointer<evaluator>& eval, my_smart_pointer<problem>& prb) {
+void individual::evaluate(my_smart_pointer<evaluator> &eval, my_smart_pointer<problem> &prb) {
     fitness = eval->evaluate(genotype, prb, groups);
     evaluated = true;
 }

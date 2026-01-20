@@ -95,7 +95,7 @@ vector<individual> genetic_algorithm::cross(vector<individual>& population) {
 individual& genetic_algorithm::get_parent_candidate_ref(vector<individual>& population) {
     uniform_int_distribution distribution(0,  static_cast<int>(population.size() - 1));
 
-    int individual_1 = distribution(rng);
+    const int individual_1 = distribution(rng);
     int individual_2 = distribution(rng);
     while (individual_1 == individual_2) individual_2 = distribution(rng);
 

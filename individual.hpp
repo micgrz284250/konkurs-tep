@@ -19,19 +19,19 @@ public:
 
     individual(const vector<int> &genotype, int localizations, int groups);
 
-    vector<int>& get_genotype_ref();
+    vector<int> &get_genotype_ref();
 
-    void set_genotype(const vector<int> &genotype_);
+    void set_genotype(const vector<int> &value);
 
     [[nodiscard]] double get_fitness() const;
 
-    void evaluate(my_smart_pointer<evaluator>& eval, my_smart_pointer<problem>& prb);
+    void evaluate(my_smart_pointer<evaluator> &eval, my_smart_pointer<problem> &prb);
 
     [[nodiscard]] bool is_evaluated() const;
 
     void mutate();
 
-    vector<individual> cross(individual& ind);
+    vector<individual> cross(individual &ind);
 
     void initialize_genotype();
 private:

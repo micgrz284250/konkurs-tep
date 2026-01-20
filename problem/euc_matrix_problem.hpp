@@ -8,7 +8,9 @@
 
 using namespace std;
 
-class euc_matrix_problem : problem {
+class euc_matrix_problem : public problem {
+public:
+    ~euc_matrix_problem() override = default;
     void load_problem(const string& path) override;
 };
 

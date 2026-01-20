@@ -10,8 +10,8 @@
 
 using namespace std;
 
-genetic_algorithm::genetic_algorithm(evaluator_implementation* evaluator, problem* problem) :
-optimization_algorithm(evaluator, problem) {
+genetic_algorithm::genetic_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem>& prb) :
+optimization_algorithm(eval, prb) {
     this->groups = 0;
     this->round_count = 0;
     this->population_size = 0;
@@ -19,8 +19,8 @@ optimization_algorithm(evaluator, problem) {
     this->mutation_prob = MUTATION_PROB;
 }
 
-genetic_algorithm::genetic_algorithm(evaluator_implementation *evaluator, problem *problem, const int groups, const int round_count, const int population_size, const double cross_prob, const double mutation_prob) :
-optimization_algorithm(evaluator, problem) {
+genetic_algorithm::genetic_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem>& prb, const int groups, const int round_count, const int population_size, const double cross_prob, const double mutation_prob) :
+optimization_algorithm(eval, prb) {
     this->groups = groups;
     this->round_count = round_count;
     this->population_size = population_size;
@@ -53,13 +53,19 @@ vector<int> genetic_algorithm::optimize() {
         population[i].initialize_genotype();
     }
 
-    // symulacja mutowania i krzyżowania
+    // symulacja krzyżowania i mutowania
     for (int i = 0; i < round_count; i++) {
         // krzyżujemy
         vector<individual> new_population;
         while (new_population.size() < population_size) {
             vector<individual> children = cross(population);
             new_population.insert(new_population.end(), children.begin(), children.end());
+        }
+        population = new_population;
+
+        // mutujemy
+        for (individual& j : population) {
+            j.mutate();
         }
     }
 

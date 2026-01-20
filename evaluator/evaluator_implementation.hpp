@@ -13,7 +13,7 @@
 
 using namespace std;
 
-class evaluator_implementation : evaluator {
+class evaluator_implementation : public evaluator {
 public:
     double evaluate(vector<int>& solution, my_smart_pointer<problem>& prb, int groups) override;
 

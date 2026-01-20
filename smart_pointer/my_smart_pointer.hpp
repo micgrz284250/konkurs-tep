@@ -9,6 +9,8 @@
 
 template<typename T>
 class my_smart_pointer {
+    template<typename U> friend class my_smart_pointer;
+
 public:
     explicit my_smart_pointer(T *ptr) {
         this->ptr = ptr;
@@ -27,6 +29,13 @@ public:
         this->counter = other.counter;
         other.ptr = nullptr;
         other.counter = nullptr;
+    }
+
+    template<typename U>
+    my_smart_pointer(const my_smart_pointer<U> &other) {
+        this->ptr = other.ptr;
+        this->counter = other.counter;
+        counter->add();
     }
 
     ~my_smart_pointer() {

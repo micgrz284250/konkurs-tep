@@ -11,7 +11,19 @@
 
 class optimization_algorithm {
 public:
-    optimization_algorithm(evaluator_implementation* evaluator, problem* prb);
+    optimization_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem>& prb) :
+    eval(eval),
+    prb(prb),
+    rng(random_device()()) {
+        this->groups = 0;
+    }
+
+    optimization_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem>& prb, int groups) :
+    eval(eval),
+    prb(prb),
+    rng(random_device()()) {
+        this->groups = groups;
+    }
 
     virtual ~optimization_algorithm() = default;
 
@@ -24,13 +36,19 @@ public:
     /// @return vector<int> - wektor optymalnego rozwiązania
     virtual vector<int> optimize() = 0;
 
-    void set_evaluator_implementation(evaluator_implementation* value);
+    void set_evaluator(my_smart_pointer<evaluator> &value) {
+        eval = my_smart_pointer(value);
+    };
 
-    void set_problem(problem* value);
+    void set_problem(my_smart_pointer<problem> &value) {
+        prb = my_smart_pointer(value);
+    };
 
-    void set_groups(int value);
+    void set_groups(const int value) {
+        this->groups = value;
+    };
 protected:
-    my_smart_pointer<evaluator_implementation> eval;
+    my_smart_pointer<evaluator> eval;
     my_smart_pointer<problem> prb;
     mt19937 rng;
 

@@ -14,9 +14,9 @@ using namespace std;
 
 class genetic_algorithm : optimization_algorithm {
 public:
-    genetic_algorithm(evaluator_implementation* evaluator, problem* problem);
+    genetic_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem>& prb);
 
-    genetic_algorithm(evaluator_implementation* evaluator, problem* problem, int groups, int round_count, int population_size, double cross_prob = CROSS_PROB, double mutation_prob = MUTATION_PROB);
+    genetic_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem>& prb, int groups, int round_count, int population_size, double cross_prob = CROSS_PROB, double mutation_prob = MUTATION_PROB);
 
     void set_round_count(int value);
 

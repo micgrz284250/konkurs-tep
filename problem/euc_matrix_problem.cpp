@@ -10,7 +10,7 @@
 
 using namespace std;
 
-void problem::load_problem(const string& path) {
+void euc_matrix_problem::load_problem(const string& path) {
     ifstream problem_file(path);
 
     // todo dodać obsługę błędów

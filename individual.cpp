@@ -38,7 +38,7 @@ double individual::get_fitness() const {
     return fitness;
 }
 
-void individual::evaluate(my_smart_pointer<evaluator_implementation>& eval, my_smart_pointer<problem>& prb) {
+void individual::evaluate(my_smart_pointer<evaluator>& eval, my_smart_pointer<problem>& prb) {
     fitness = eval->evaluate(genotype, prb, groups);
     evaluated = true;
 }

@@ -18,7 +18,7 @@ public:
         this->groups = 0;
     }
 
-    optimization_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem>& prb, int groups) :
+    optimization_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem>& prb, const int groups) :
     eval(eval),
     prb(prb),
     rng(random_device()()) {

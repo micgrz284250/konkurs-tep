@@ -12,9 +12,9 @@
 double evaluator_implementation::evaluate(vector<int>& solution, my_smart_pointer<problem>& prb, const int groups) {
     double fitness = 0.0;
 
-    if (solution.size() != prb->get_dimension()) return WRONG_SOLUTION_ERROR_CODE;
+    if (solution.size() != prb->get_permutation_ref().size()) return WRONG_SOLUTION_ERROR_CODE;
 
-    int current_location_id = prb->get_depot();
+    int current_location_id = prb->get_depot()-1;
     int goal_location_id;
     double distance;
     double group_demand = 0;
@@ -22,7 +22,7 @@ double evaluator_implementation::evaluate(vector<int>& solution, my_smart_pointe
     for (int i = 0; i < groups; i++) {
         for (int j = 0; j < solution.size(); j++) {
             if (solution[j] == i) {
-                goal_location_id = prb->get_permutation_ref()[j];
+                goal_location_id = prb->get_permutation_ref()[j]-1;
                 distance = get_distance(prb, current_location_id, goal_location_id);
                 fitness += distance;
                 current_location_id = goal_location_id;

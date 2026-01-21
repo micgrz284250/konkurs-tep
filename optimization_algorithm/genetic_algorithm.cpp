@@ -49,12 +49,14 @@ vector<int> genetic_algorithm::optimize() {
 
     // inicjalizacja każdego osobnika
     for (int i = 0; i < population_size; i++) {
-        population.emplace_back(prb->get_dimension(), groups);
+        population.emplace_back(prb->get_dimension()-1, groups);
         population[i].initialize_genotype();
     }
 
     // symulacja krzyżowania i mutowania
     for (int i = 0; i < round_count; i++) {
+        if (i % 1000 == 0) cout << "round " << i << endl;
+
         // krzyżujemy
         vector<individual> new_population;
         while (new_population.size() < population_size) {
@@ -80,6 +82,7 @@ vector<int> genetic_algorithm::optimize() {
         }
     }
 
+    cout << eval->evaluate(best_solution, prb, groups) << endl;
     return best_solution;
 }
 

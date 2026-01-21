@@ -14,14 +14,14 @@ int main() {
     const my_smart_pointer eval(new evaluator_implementation());
 
     constexpr int groups = 2;
-    constexpr int round_count = 1000;
-    constexpr int population_size = 50;
+    constexpr int round_count = 10000;
+    constexpr int population_size = 1000;
 
     genetic_algorithm ga(eval, prb, groups, round_count, population_size);
     vector result = ga.optimize();
 
     for (int i : result) {
-        cout << i << "," << endl;
+        cout << i << ",";
     }
 
     return 0;

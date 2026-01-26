@@ -56,25 +56,25 @@ vector<int> genetic_algorithm::optimize() {
 
     // symulacja krzyżowania i mutowania
     for (int i = 0; i < round_count; i++) {
-        if (i % 1000 == 0) cout << "round" << endl;
-        // krzyżujemy
-        vector<individual> new_population;
-        mutex m;
-        vector<thread> threads;
+        if (i % 1000 == 0) cout << i/1000 << endl;
 
-        for (int j = 0; j < 4 ; j++) {
-            threads.emplace_back([&new_population, &population, &m, this]{
-                while (new_population.size() < population_size) {
+        // krzyżujemy
+        constexpr int thread_count = 1;
+        vector<individual> new_population;
+        vector<thread> threads;
+        vector<vector<individual>> thread_population(thread_count);
+
+        for (int j = 0; j < thread_count ; j++) {
+            threads.emplace_back([&thread_population, &population, this](const int thread_id){
+                const int thread_population_size = population_size / thread_count;
+                while (thread_population[thread_id].size() < thread_population_size) {
                     vector<individual> children = cross(population);
-                    m.lock();
-                    new_population.insert(new_population.end(), children.begin(), children.end());
-                    m.unlock();
+                    thread_population[thread_id].insert(thread_population[thread_id].end(), children.begin(), children.end());
                 }
-            });
+            }, j);
         }
-        for (auto &thread : threads) {
-            if (thread.joinable()) thread.join();
-        }
+        for (auto &thread : threads) if (thread.joinable()) thread.join();
+        for (auto &thread_pop : thread_population) new_population.insert(new_population.end(), thread_pop.begin(), thread_pop.end());
         threads.clear();
 
         // while (new_population.size() < population_size) {
@@ -82,7 +82,7 @@ vector<int> genetic_algorithm::optimize() {
         //     new_population.insert(new_population.end(), children.begin(), children.end());
         // }
 
-        population = new_population;
+        // population = new_population;
 
         // mutujemy
         for (individual& j : population) {

@@ -7,6 +7,8 @@
 
 #include "../smart_pointer/ref_counter.hpp"
 
+using namespace std;
+
 template<typename T>
 class my_smart_pointer {
     template<typename U> friend class my_smart_pointer;
@@ -31,7 +33,7 @@ public:
         other.counter = nullptr;
     }
 
-    template<typename U>
+    template <derived_from<T> U>
     my_smart_pointer(const my_smart_pointer<U> &other) {
         this->ptr = other.ptr;
         this->counter = other.counter;

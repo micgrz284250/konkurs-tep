@@ -47,7 +47,8 @@ double evaluator_implementation::get_distance(my_smart_pointer<problem>& prb, co
         const tuple<double, double> client_1 = prb->get_coordinates_ref()[client_1_id];
         const tuple<double, double> client_2 = prb->get_coordinates_ref()[client_2_id];
 
-        return sqrt(pow(get<0>(client_1) - get<0>(client_2), 2) + pow(get<1>(client_1) - get<1>(client_2), 2));
+        double distance = sqrt(pow(get<0>(client_1) - get<0>(client_2), 2) + pow(get<1>(client_1) - get<1>(client_2), 2));
+        return distance;
     }
     return WRONG_SOLUTION_ERROR_CODE;
 }

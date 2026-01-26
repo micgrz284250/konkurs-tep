@@ -4,6 +4,7 @@
 
 
 #include <iostream>
+#include <thread>
 
 #include "genetic_algorithm.hpp"
 #include "../evaluator/evaluator_implementation.hpp"
@@ -55,14 +56,32 @@ vector<int> genetic_algorithm::optimize() {
 
     // symulacja krzyżowania i mutowania
     for (int i = 0; i < round_count; i++) {
-        if (i % 1000 == 0) cout << "round " << i << endl;
-
+        if (i % 1000 == 0) cout << "round" << endl;
         // krzyżujemy
         vector<individual> new_population;
-        while (new_population.size() < population_size) {
-            vector<individual> children = cross(population);
-            new_population.insert(new_population.end(), children.begin(), children.end());
+        mutex m;
+        vector<thread> threads;
+
+        for (int j = 0; j < 4 ; j++) {
+            threads.emplace_back([&new_population, &population, &m, this]{
+                while (new_population.size() < population_size) {
+                    vector<individual> children = cross(population);
+                    m.lock();
+                    new_population.insert(new_population.end(), children.begin(), children.end());
+                    m.unlock();
+                }
+            });
         }
+        for (auto &thread : threads) {
+            if (thread.joinable()) thread.join();
+        }
+        threads.clear();
+
+        // while (new_population.size() < population_size) {
+        //     vector<individual> children = cross(population);
+        //     new_population.insert(new_population.end(), children.begin(), children.end());
+        // }
+
         population = new_population;
 
         // mutujemy

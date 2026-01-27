@@ -8,8 +8,7 @@
 
 using namespace std;
 
-individual::individual(const int localizations,const int groups) :
-rng(random_device()()) {
+individual::individual(const int localizations,const int groups) {
     this->genotype.clear();
     this->localizations = localizations;
     this->groups = groups;
@@ -17,8 +16,7 @@ rng(random_device()()) {
     this->evaluated = false;
 }
 
-individual::individual(const vector<int> &genotype, const int localizations, const int groups) :
-rng(random_device()()) {
+individual::individual(const vector<int> &genotype, const int localizations, const int groups) {
     this->genotype = genotype;
     this->localizations = localizations;
     this->groups = groups;
@@ -47,7 +45,7 @@ bool individual::is_evaluated() const {
     return evaluated;
 }
 
-void individual::mutate() {
+void individual::mutate(mt19937 &rng) {
     uniform_real_distribution<double> real_dist(0, 1);
     uniform_int_distribution int_dist(0, groups-1);
 
@@ -58,7 +56,7 @@ void individual::mutate() {
     }
 }
 
-vector<individual> individual::cross(individual &ind) {
+vector<individual> individual::cross(individual &ind, mt19937 &rng) {
     uniform_real_distribution<double> real_dist(0, 1);
     uniform_int_distribution int_dist(0, localizations);
 
@@ -88,7 +86,7 @@ vector<individual> individual::cross(individual &ind) {
     return {};
 }
 
-void individual::initialize_genotype() {
+void individual::initialize_genotype(mt19937 &rng) {
     uniform_int_distribution<int> int_dist(0, groups-1);
     this->genotype.clear();
     for (int i = 0; i < localizations; i++) {

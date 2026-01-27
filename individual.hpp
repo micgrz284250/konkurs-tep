@@ -29,18 +29,17 @@ public:
 
     [[nodiscard]] bool is_evaluated() const;
 
-    void mutate();
+    void mutate(mt19937 &rng);
 
-    vector<individual> cross(individual &ind);
+    vector<individual> cross(individual &ind, mt19937 &rng);
 
-    void initialize_genotype();
+    void initialize_genotype(mt19937 &rng);
 private:
     vector<int> genotype;
     int localizations;
     int groups;
     double fitness;
     bool evaluated;
-    mt19937 rng;
 };
 
 #endif //KONKURS_INDIVIDUAL_H

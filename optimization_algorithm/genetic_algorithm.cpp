@@ -47,34 +47,39 @@ void genetic_algorithm::set_mutation_prob(const double value) {
 
 vector<int> genetic_algorithm::optimize() {
     vector<individual> population;
-
+    mt19937 main_thread_mt19937{random_device()()};
     // inicjalizacja każdego osobnika
     for (int i = 0; i < population_size; i++) {
         population.emplace_back(prb->get_dimension()-1, groups);
-        population[i].initialize_genotype();
+        population[i].initialize_genotype(main_thread_mt19937);
     }
+
+    constexpr int thread_count = 4;
+    vector<thread> threads;
+
+    vector<int> thread_population_sizes;
+    const int base_size = population_size / thread_count;
+    const int base_rest = population_size % thread_count;
+    for (int j = 0; j < thread_count; j++) {
+        if (j < base_rest) thread_population_sizes.push_back(base_size + 1);
+        else thread_population_sizes.push_back(base_size);
+    }
+
+    vector<mt19937> thread_mt19937;
+    for (int j = 0; j < thread_count; j++) thread_mt19937.emplace_back(random_device()());
 
     // symulacja krzyżowania i mutowania
     for (int i = 0; i < round_count; i++) {
         if (i % 1000 == 0) cout << i/1000 << endl;
 
-        // krzyżujemy
-        constexpr int thread_count = 7;
-        vector<individual> new_population;
-        vector<thread> threads;
         vector<vector<individual>> thread_population(thread_count);
-        vector<int> thread_population_sizes;
-        const int base_size = population_size / thread_count;
-        const int base_rest = population_size % thread_count;
+        vector<individual> new_population;
 
-        for (int j = 0; j < thread_count; j++) {
-            if (j < base_rest) thread_population_sizes.push_back(base_size + 1);
-            else thread_population_sizes.push_back(base_size);
-        }
+        // krzyżujemy
         for (int j = 0; j < thread_count ; j++) {
-            threads.emplace_back([&thread_population, &population, this](const int thread_id, const int thread_population_size){
+            threads.emplace_back([&thread_population, &population, &thread_mt19937, this](const int thread_id, const int thread_population_size){
                 while (thread_population[thread_id].size() < thread_population_size) {
-                    vector<individual> children = cross(population);
+                    vector<individual> children = cross(population, thread_mt19937[thread_id]);
                     thread_population[thread_id].insert(thread_population[thread_id].end(), children.begin(), children.end());
                 }
                 if (thread_population[thread_id].size() > thread_population_size) thread_population[thread_id].pop_back();
@@ -94,7 +99,7 @@ vector<int> genetic_algorithm::optimize() {
 
         // mutujemy
         for (int j = 0; j < thread_count; j++) {
-            threads.emplace_back([&population](const int thread_id, const int thread_population_size){
+            threads.emplace_back([&population, &thread_mt19937](const int thread_id, const int thread_population_size){
                 // size 4
                 // then pop_size = 250
                 // begin index = 0 (0 * 250)
@@ -102,7 +107,7 @@ vector<int> genetic_algorithm::optimize() {
                 const int begin_index = thread_id * thread_population_size;
                 const int end_index = begin_index + thread_population_size;
                 for (int k = begin_index; k < end_index; k++) {
-                    population[k].mutate();
+                    population[k].mutate(thread_mt19937[thread_id]);
                 }
             }, j, thread_population_sizes[j]);
         }
@@ -125,16 +130,16 @@ vector<int> genetic_algorithm::optimize() {
     return best_solution;
 }
 
-vector<individual> genetic_algorithm::cross(vector<individual>& population) {
-    individual& parent_1 = get_parent_candidate_ref(population);
-    individual& parent_2 = get_parent_candidate_ref(population);
+vector<individual> genetic_algorithm::cross(vector<individual>& population, mt19937 &rng) {
+    individual& parent_1 = get_parent_candidate_ref(population, rng);
+    individual& parent_2 = get_parent_candidate_ref(population, rng);
 
-    vector<individual> children = parent_1.cross(parent_2);
+    vector<individual> children = parent_1.cross(parent_2, rng);
 
     return children;
 }
 
-individual& genetic_algorithm::get_parent_candidate_ref(vector<individual>& population) {
+individual& genetic_algorithm::get_parent_candidate_ref(vector<individual> &population, mt19937 &rng) {
     uniform_int_distribution distribution(0,  static_cast<int>(population.size() - 1));
 
     const int individual_1 = distribution(rng);

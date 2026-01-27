@@ -3,6 +3,8 @@ project(konkurs)
 
 set(CMAKE_CXX_STANDARD 20)
 
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
 add_executable(konkurs main.cpp
         individual.cpp
         individual.hpp

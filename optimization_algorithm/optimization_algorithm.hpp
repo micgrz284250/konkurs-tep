@@ -15,12 +15,14 @@ public:
     eval(eval),
     prb(prb) {
         this->groups = 0;
+        this->thread_count = 1;
     }
 
     optimization_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem>& prb, const int groups) :
     eval(eval),
     prb(prb) {
         this->groups = groups;
+        this->thread_count = 1;
     }
 
     virtual ~optimization_algorithm() = default;
@@ -45,10 +47,14 @@ public:
     void set_groups(const int value) {
         this->groups = value;
     };
+
+    void set_thread_count(const int value) {
+        this->thread_count = value;
+    }
 protected:
     my_smart_pointer<evaluator> eval;
     my_smart_pointer<problem> prb;
-
+    int thread_count;
     int groups;
 };
 

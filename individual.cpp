@@ -8,6 +8,14 @@
 
 using namespace std;
 
+individual::individual() {
+    this->genotype.clear();
+    this->localizations = 0;
+    this->groups = 0;
+    this->fitness = INFINITY;
+    this->evaluated = false;
+}
+
 individual::individual(const int localizations,const int groups) {
     this->genotype.clear();
     this->localizations = localizations;
@@ -60,6 +68,7 @@ vector<individual> individual::cross(individual &ind, mt19937 &rng) {
     uniform_real_distribution<double> real_dist(0, 1);
     uniform_int_distribution int_dist(0, localizations);
 
+    vector<individual> children;
     if (real_dist(rng) <= CROSS_PROB) {
         const int split_index = int_dist(rng);
         vector genotype_1_a(get_genotype_ref().begin(), get_genotype_ref().begin() + split_index);
@@ -76,14 +85,12 @@ vector<individual> individual::cross(individual &ind, mt19937 &rng) {
         genotype_cross_2.insert(genotype_cross_2.end(), genotype_2_a.begin(), genotype_2_a.end());
         genotype_cross_2.insert(genotype_cross_2.end(), genotype_1_b.begin(), genotype_1_b.end());
 
-        vector<individual> children;
-
         children.emplace_back(genotype_cross_1, this->localizations, this->groups);
         children.emplace_back(genotype_cross_2, this->localizations, this->groups);
 
         return children;
     }
-    return {};
+    return children;
 }
 
 void individual::initialize_genotype(mt19937 &rng) {

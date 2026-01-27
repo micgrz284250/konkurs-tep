@@ -12,7 +12,7 @@
 
 using namespace std;
 
-class genetic_algorithm : optimization_algorithm {
+class genetic_algorithm : public optimization_algorithm {
 public:
     genetic_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem> &prb);
 

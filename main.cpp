@@ -13,11 +13,13 @@ int main() {
     my_smart_pointer<problem> prb = problem::get_problem<euc_matrix_problem>(path);
     my_smart_pointer<evaluator> eval(new evaluator_implementation());
 
+    constexpr int thread_count = 4;
     constexpr int groups = 2;
-    constexpr int round_count = 10000;
+    constexpr int round_count = 50000;
     constexpr int population_size = 1000;
 
     genetic_algorithm ga(eval, prb, groups, round_count, population_size);
+    ga.set_thread_count(thread_count);
     vector result = ga.optimize();
 
     for (int i : result) {

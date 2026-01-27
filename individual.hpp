@@ -15,6 +15,8 @@ using namespace std;
 
 class individual {
 public:
+    individual();
+
     individual(int localizations, int groups);
 
     individual(const vector<int> &genotype, int localizations, int groups);

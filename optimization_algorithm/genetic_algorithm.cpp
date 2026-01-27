@@ -46,7 +46,9 @@ void genetic_algorithm::set_mutation_prob(const double value) {
 }
 
 vector<int> genetic_algorithm::optimize() {
+    //populacja, na której operujemy
     vector<individual> population;
+    // maszyna generująca do inicjalizacji nowych osobników
     mt19937 main_thread_mt19937{random_device()()};
     // inicjalizacja każdego osobnika
     for (int i = 0; i < population_size; i++) {
@@ -54,9 +56,8 @@ vector<int> genetic_algorithm::optimize() {
         population[i].initialize_genotype(main_thread_mt19937);
     }
 
-    constexpr int thread_count = 4;
+    // szykujemy wątki, rozmiary populacji jakię watek będzie tworzył oraz maszyny losujące dla każdego wątku
     vector<thread> threads;
-
     vector<int> thread_population_sizes;
     const int base_size = population_size / thread_count;
     const int base_rest = population_size % thread_count;
@@ -64,7 +65,13 @@ vector<int> genetic_algorithm::optimize() {
         if (j < base_rest) thread_population_sizes.push_back(base_size + 1);
         else thread_population_sizes.push_back(base_size);
     }
-
+    vector<int> thread_begin_indexes;
+    // obliczamy początkowe index dla każdego wątku
+    int curr_index = 0;
+    for (int j = 0; j < thread_count; j++) {
+        thread_begin_indexes.push_back(curr_index);
+        curr_index += thread_population_sizes[j];
+    }
     vector<mt19937> thread_mt19937;
     for (int j = 0; j < thread_count; j++) thread_mt19937.emplace_back(random_device()());
 
@@ -72,21 +79,29 @@ vector<int> genetic_algorithm::optimize() {
     for (int i = 0; i < round_count; i++) {
         if (i % 1000 == 0) cout << i/1000 << endl;
 
-        vector<vector<individual>> thread_population(thread_count);
-        vector<individual> new_population;
+        // tworzymy wektor nowej populacji i rezerwujemy dla niego rozmiar
+        vector<individual> new_population(population_size);
 
         // krzyżujemy
         for (int j = 0; j < thread_count ; j++) {
-            threads.emplace_back([&thread_population, &population, &thread_mt19937, this](const int thread_id, const int thread_population_size){
-                while (thread_population[thread_id].size() < thread_population_size) {
+            threads.emplace_back([&population, &new_population, &thread_mt19937, this](const int thread_id, const int thread_population_size, const int thread_begin_index){
+                int generated_population = 0;
+                while (generated_population < thread_population_size) {
                     vector<individual> children = cross(population, thread_mt19937[thread_id]);
-                    thread_population[thread_id].insert(thread_population[thread_id].end(), children.begin(), children.end());
+                    for (auto &child : children) {
+                        // od razu dokonujemy ewaluacji
+                        // od razu dokonujemy mutacji
+                        if (generated_population < thread_population_size) {
+                            if (!child.is_evaluated()) child.evaluate(eval, prb);
+                            child.mutate(thread_mt19937[thread_id]);
+                            new_population[thread_begin_index + generated_population] = child;
+                            generated_population++;
+                        }
+                    }
                 }
-                if (thread_population[thread_id].size() > thread_population_size) thread_population[thread_id].pop_back();
-            }, j, thread_population_sizes[j]);
+            }, j, thread_population_sizes[j], thread_begin_indexes[j]);
         }
         for (auto &thread : threads) if (thread.joinable()) thread.join();
-        for (auto &thread_pop : thread_population) new_population.insert(new_population.end(), thread_pop.begin(), thread_pop.end());
         population = new_population;
         threads.clear();
 
@@ -98,31 +113,47 @@ vector<int> genetic_algorithm::optimize() {
         // population = new_population;
 
         // mutujemy
-        for (int j = 0; j < thread_count; j++) {
-            threads.emplace_back([&population, &thread_mt19937](const int thread_id, const int thread_population_size){
-                // size 4
-                // then pop_size = 250
-                // begin index = 0 (0 * 250)
-                // end_index = 0 + 250
-                const int begin_index = thread_id * thread_population_size;
-                const int end_index = begin_index + thread_population_size;
-                for (int k = begin_index; k < end_index; k++) {
-                    population[k].mutate(thread_mt19937[thread_id]);
-                }
-            }, j, thread_population_sizes[j]);
-        }
-        for (auto &thread : threads) if (thread.joinable()) thread.join();
-        threads.clear();
+        // for (int j = 0; j < thread_count; j++) {
+        //     threads.emplace_back([&population, &thread_mt19937](const int thread_id, const int thread_population_size){
+        //         // size 4
+        //         // then pop_size = 250
+        //         // begin index = 0 (0 * 250)
+        //         // end_index = 0 + 250
+        //         const int begin_index = thread_id * thread_population_size;
+        //         const int end_index = begin_index + thread_population_size;
+        //         for (int k = begin_index; k < end_index; k++) {
+        //             population[k].mutate(thread_mt19937[thread_id]);
+        //         }
+        //     }, j, thread_population_sizes[j]);
+        // }
+        // for (auto &thread : threads) if (thread.joinable()) thread.join();
+        // threads.clear();
     }
 
     //wybieramy najlepszego osobnika
     double best_fitness = INFINITY; // smaller fitness means better fitness
     vector<int> best_solution;
-    for (int i = 0; i < population_size; i++) {
-        if (!population[i].is_evaluated()) population[i].evaluate(eval, prb);
-        if (population[i].get_fitness() < best_fitness) {
-            best_fitness = population[i].get_fitness();
-            best_solution = population[i].get_genotype_ref();
+    vector<individual> thread_best_solutions(thread_count);
+    for (int j = 0; j < thread_count; j++) {
+        threads.emplace_back([&population, &thread_best_solutions, this](const int thread_id, const int thread_population_size, const int thread_begin_index) {
+            const int thread_end_index = thread_begin_index + thread_population_size;
+            double thread_best_fitness = INFINITY;
+            for (int i = thread_begin_index; i < thread_end_index; i++) {
+                if (!population[i].is_evaluated()) population[i].evaluate(eval, prb);
+                if (population[i].get_fitness() < thread_best_fitness) {
+                    thread_best_fitness = population[i].get_fitness();
+                    thread_best_solutions[thread_id] = population[i];
+                }
+            }
+        }, j, thread_population_sizes[j], thread_begin_indexes[j]);
+    }
+    for (auto &thread : threads) if (thread.joinable()) thread.join();
+
+    for (auto &solution : thread_best_solutions) {
+        if (!solution.is_evaluated()) solution.evaluate(eval, prb);
+        if (solution.get_fitness() < best_fitness) {
+            best_fitness = solution.get_fitness();
+            best_solution = solution.get_genotype_ref();
         }
     }
 

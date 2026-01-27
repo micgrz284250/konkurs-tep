@@ -59,25 +59,29 @@ vector<int> genetic_algorithm::optimize() {
         if (i % 1000 == 0) cout << i/1000 << endl;
 
         // krzyżujemy
-        constexpr int thread_count = 4;
+        constexpr int thread_count = 7;
         vector<individual> new_population;
         vector<thread> threads;
         vector<vector<individual>> thread_population(thread_count);
+        vector<int> thread_population_sizes;
+        const int base_size = population_size / thread_count;
+        const int base_rest = population_size % thread_count;
 
+        for (int j = 0; j < thread_count; j++) {
+            if (j < base_rest) thread_population_sizes.push_back(base_size + 1);
+            else thread_population_sizes.push_back(base_size);
+        }
         for (int j = 0; j < thread_count ; j++) {
-            threads.emplace_back([&thread_population, &population, this](const int thread_id){
-                const int thread_population_size = population_size / thread_count + 1;
+            threads.emplace_back([&thread_population, &population, this](const int thread_id, const int thread_population_size){
                 while (thread_population[thread_id].size() < thread_population_size) {
                     vector<individual> children = cross(population);
                     thread_population[thread_id].insert(thread_population[thread_id].end(), children.begin(), children.end());
                 }
-            }, j);
+                if (thread_population[thread_id].size() > thread_population_size) thread_population[thread_id].pop_back();
+            }, j, thread_population_sizes[j]);
         }
         for (auto &thread : threads) if (thread.joinable()) thread.join();
         for (auto &thread_pop : thread_population) new_population.insert(new_population.end(), thread_pop.begin(), thread_pop.end());
-        while (new_population.size() > population_size) {
-            new_population.pop_back();
-        }
         population = new_population;
         threads.clear();
 
@@ -89,15 +93,18 @@ vector<int> genetic_algorithm::optimize() {
         // population = new_population;
 
         // mutujemy
-        atomic index(0);
         for (int j = 0; j < thread_count; j++) {
-            threads.emplace_back([&index, &population, this]{
-                int thread_index = index.fetch_add(1);
-                while (thread_index < population_size) {
-                    population[thread_index].mutate();
-                    thread_index = index.fetch_add(1);
+            threads.emplace_back([&population](const int thread_id, const int thread_population_size){
+                // size 4
+                // then pop_size = 250
+                // begin index = 0 (0 * 250)
+                // end_index = 0 + 250
+                const int begin_index = thread_id * thread_population_size;
+                const int end_index = begin_index + thread_population_size;
+                for (int k = begin_index; k < end_index; k++) {
+                    population[k].mutate();
                 }
-            });
+            }, j, thread_population_sizes[j]);
         }
         for (auto &thread : threads) if (thread.joinable()) thread.join();
         threads.clear();

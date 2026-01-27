@@ -15,16 +15,19 @@ int main() {
 
     constexpr int thread_count = 4;
     constexpr int groups = 2;
-    constexpr int round_count = 50000;
+    constexpr int round_count = 10000;
     constexpr int population_size = 1000;
 
     genetic_algorithm ga(eval, prb, groups, round_count, population_size);
     ga.set_thread_count(thread_count);
-    vector result = ga.optimize();
 
-    for (int i : result) {
-        cout << i << ",";
+    for (int j = 0; j < 5; j++) {
+        vector result = ga.optimize();
+
+        for (int i = 0; i < result.size() - 1; i++) {
+            cout << result[i] << ",";
+        }
+        cout << result[result.size() - 1] << endl;
     }
-
     return 0;
 }

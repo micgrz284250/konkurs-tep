@@ -62,6 +62,7 @@ void individual::mutate(mt19937 &rng) {
             i = int_dist(rng);
         }
     }
+    evaluated = false;
 }
 
 vector<individual> individual::cross(individual &ind, mt19937 &rng) {

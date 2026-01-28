@@ -85,6 +85,8 @@ int explicit_matrix_problem::load_problem(const string& path) {
 }
 
 double explicit_matrix_problem::get_distance(int client_1_id, int client_2_id) {
+    client_1_id--;
+    client_2_id--;
     if (client_1_id == client_2_id) return 0;
     if (client_1_id > client_2_id) {
         return distance_matrix[client_1_id][client_2_id];

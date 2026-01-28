@@ -10,13 +10,13 @@
 using namespace std;
 
 int main() {
-    const std::string path = "../data/lcvrp/Vrp-Set-D/Loggi-n601-k19.lcvrp";
-    my_smart_pointer<problem> prb = problem::get_problem_pointer<explicit_matrix_problem>(path);
+    const std::string path = "../data/lcvrp/Vrp-Set-A/A-n32-k5.lcvrp";
+    my_smart_pointer<problem> prb = problem::get_problem_pointer<euc_matrix_problem>(path);
     my_smart_pointer<evaluator> eval(new evaluator_implementation());
 
     constexpr int thread_count = 4;
-    constexpr int groups = 19;
-    constexpr int round_count = 2000;
+    constexpr int groups = 5;
+    constexpr int round_count = 10000;
     constexpr int population_size = 1000;
 
     my_smart_pointer<genetic_algorithm> op = optimization_algorithm::get_optimization_algorithm_pointer<genetic_algorithm>(eval, prb, groups);
@@ -24,7 +24,7 @@ int main() {
     op->set_round_count(round_count);
     op->set_population_size(population_size);
 
-    for (int j = 0; j < 5; j++) {
+    for (int j = 0; j < 1; j++) {
         vector result = op->optimize();
 
         if (!result.empty()) {

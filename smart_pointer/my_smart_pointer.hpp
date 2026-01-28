@@ -24,6 +24,7 @@ public:
     my_smart_pointer(U *ptr) {
         this->ptr = ptr;
         counter = new ref_counter();
+        counter->add();
     }
 
     my_smart_pointer(const my_smart_pointer &other) {

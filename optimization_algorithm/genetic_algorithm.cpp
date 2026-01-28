@@ -83,11 +83,11 @@ vector<int> genetic_algorithm::optimize() {
     vector<individual> thread_best_solutions(thread_count);
 
     // symulacja krzyżowania i mutowania
+    const int ten_percent = static_cast<int>(round_count * 0.1);
     for (int i = 0; i < round_count; i++) {
-        if (i % 1000 == 0) cout << i << endl;
+        if (i % ten_percent == 0) cout << "#" << flush;
         // tworzymy wektor nowej populacji i rezerwujemy dla niego rozmiar
         vector<individual> new_population(population_size);
-
         // krzyżujemy
         for (int j = 0; j < thread_count ; j++) {
             threads.emplace_back([&population, &new_population, &thread_best_solutions, &thread_mt19937, this](const int thread_id, const int thread_population_size, const int thread_begin_index){
@@ -139,6 +139,7 @@ vector<int> genetic_algorithm::optimize() {
         cout << "No solution found" << endl;
         return {};
     }
+    cout << endl;
     cout << eval->evaluate(best_solution, prb, groups) << endl;
     return best_solution;
 }

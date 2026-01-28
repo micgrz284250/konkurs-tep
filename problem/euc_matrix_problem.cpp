@@ -3,6 +3,7 @@
 //
 
 #include "euc_matrix_problem.hpp"
+#include "../constants.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -11,12 +12,11 @@
 
 using namespace std;
 
-void euc_matrix_problem::load_problem(const string& path) {
+int euc_matrix_problem::load_problem(const string& path) {
     ifstream problem_file(path);
 
-    // todo dodać obsługę błędów
     if (!problem_file.is_open()) {
-        cout << "problem file not found" << endl;
+        return FILE_NOT_FOUND_ERROR_CODE;
     }
 
     string line;
@@ -74,6 +74,14 @@ void euc_matrix_problem::load_problem(const string& path) {
             }
         }
     }
+
+    if (name == SECTION_NOT_LOADED_STRING || edge_type == SECTION_NOT_LOADED_STRING) return FILE_LOAD_PROBLEM;
+    if (dimension == SECTION_NOT_LOADED_INT || capacity == SECTION_NOT_LOADED_INT || depot == SECTION_NOT_LOADED_INT) return FILE_LOAD_PROBLEM;
+    if (permutation.size() != dimension - 1) return FILE_LOAD_PROBLEM;
+    if (demands.size() != dimension - 1) return FILE_LOAD_PROBLEM;
+    if (coordinates.size() != dimension) return FILE_LOAD_PROBLEM;
+
+    return FILE_LOADED_SUCCESSFULLY;
 }
 
 double euc_matrix_problem::get_distance(const int client_1_id, const int client_2_id) {

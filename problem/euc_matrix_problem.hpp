@@ -11,7 +11,7 @@ using namespace std;
 class euc_matrix_problem : public problem {
 public:
     ~euc_matrix_problem() override = default;
-    void load_problem(const string& path) override;
+    int load_problem(const string& path) override;
     double get_distance(int client_1_id, int client_2_id) override;
 };
 

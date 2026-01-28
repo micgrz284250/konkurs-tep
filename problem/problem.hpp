@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "../constants.hpp"
 #include "../smart_pointer/my_smart_pointer.hpp"
 
 using namespace std;
@@ -18,7 +19,10 @@ public:
     template <typename T>
     static my_smart_pointer<T> get_problem_pointer(const string &path) {
         auto prb = my_smart_pointer<T>(new T());
-        prb->load_problem(path);
+        const int error_code = prb->load_problem(path);
+        if (error_code != FILE_LOADED_SUCCESSFULLY) {
+            prb = my_smart_pointer<T>(nullptr);
+        }
         return prb;
     }
 
@@ -56,7 +60,7 @@ public:
 
     virtual double get_distance(int client_1_id, int client_2_id) = 0;
 
-    virtual void load_problem(const string& path) = 0;
+    virtual int load_problem(const string& path) = 0;
 protected:
     string name;
     int dimension;
@@ -68,13 +72,13 @@ protected:
     vector<tuple<double, double>> coordinates;
 
     problem() {
-        this->name = "";
-        this->dimension = 0;
-        this->edge_type = "";
-        this->capacity = 0;
+        this->name = SECTION_NOT_LOADED_STRING;
+        this->edge_type = SECTION_NOT_LOADED_STRING;
+        this->dimension = SECTION_NOT_LOADED_INT;
+        this->capacity = SECTION_NOT_LOADED_INT;
+        this->depot = SECTION_NOT_LOADED_INT;
         this->permutation.clear();
         this->demands.clear();
-        this->depot = 0;
         this->coordinates.clear();
     }
 };

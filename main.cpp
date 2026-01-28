@@ -14,8 +14,9 @@ int main() {
     my_smart_pointer<problem> prb = problem::get_problem_pointer<euc_matrix_problem>(path);
     my_smart_pointer<evaluator> eval(new evaluator_implementation());
 
+    //best result 4
     constexpr int thread_count = 4;
-    constexpr int groups = 5;
+    constexpr int groups = 10;
     constexpr int round_count = 10000;
     constexpr int population_size = 1000;
 

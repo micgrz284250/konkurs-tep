@@ -135,11 +135,11 @@ vector<int> genetic_algorithm::optimize() {
             }
         }
     }
+    cout << endl;
     if (best_fitness == INFINITY) {
         cout << "No solution found" << endl;
         return {};
     }
-    cout << endl;
     cout << eval->evaluate(best_solution, prb, groups) << endl;
     return best_solution;
 }

@@ -21,12 +21,16 @@ int main() {
     genetic_algorithm ga(eval, prb, groups, round_count, population_size);
     ga.set_thread_count(thread_count);
 
+    cout << "depot = " << "(" << get<0>(prb->get_coordinates_ref()[0]) << ", " << get<1>(prb->get_coordinates_ref()[0]) << ")" << endl;
+    for (int i = 0; i < prb->get_permutation_ref().size(); i++) {
+        int k = prb->get_permutation_ref()[i];
+        cout << prb->get_permutation_ref()[i] << ", " << "(" << get<0>(prb->get_coordinates_ref()[k - 1]) << ", " << get<1>(prb->get_coordinates_ref()[k - 1]) << ")" << endl;
+    }
+
     for (int j = 0; j < 5; j++) {
         vector result = ga.optimize();
 
-        for (int i = 0; i < result.size() - 1; i++) {
-            cout << result[i] << ",";
-        }
+        for (int i = 0; i < result.size() - 1; i++) cout << result[i] << ",";
         cout << result[result.size() - 1] << endl;
     }
     return 0;

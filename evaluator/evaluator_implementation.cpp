@@ -33,9 +33,10 @@ double evaluator_implementation::evaluate(vector<int>& solution, my_smart_pointe
                 }
             }
         }
-        goal_location_id = prb->get_depot();
+        goal_location_id = prb->get_depot()-1;
         distance = get_distance(prb, current_location_id, goal_location_id);
         fitness += distance;
+        current_location_id = goal_location_id;
         group_demand = 0;
     }
 
@@ -47,8 +48,7 @@ double evaluator_implementation::get_distance(my_smart_pointer<problem>& prb, co
         const tuple<double, double> client_1 = prb->get_coordinates_ref()[client_1_id];
         const tuple<double, double> client_2 = prb->get_coordinates_ref()[client_2_id];
 
-        double distance = sqrt(pow(get<0>(client_1) - get<0>(client_2), 2) + pow(get<1>(client_1) - get<1>(client_2), 2));
-        return distance;
+        return sqrt(pow(get<0>(client_1) - get<0>(client_2), 2) + pow(get<1>(client_1) - get<1>(client_2), 2));
     }
     return WRONG_SOLUTION_ERROR_CODE;
 }

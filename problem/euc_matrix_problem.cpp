@@ -85,6 +85,9 @@ int euc_matrix_problem::load_problem(const string& path) {
 }
 
 double euc_matrix_problem::get_distance(const int client_1_id, const int client_2_id) {
+    if (client_1_id < 0 || client_1_id >= get_coordinates_ref().size()) throw invalid_argument("Client_1_id out of bounds");
+    if (client_2_id < 0 || client_2_id >= get_coordinates_ref().size()) throw invalid_argument("Client_2_id out of bounds");
+
     const tuple<double, double> client_1 = get_coordinates_ref()[client_1_id];
     const tuple<double, double> client_2 = get_coordinates_ref()[client_2_id];
 

@@ -12,7 +12,8 @@
 double evaluator_implementation::evaluate(vector<int>& solution, my_smart_pointer<problem>& prb, const int groups) {
     double fitness = 0.0;
 
-    if (solution.size() != prb->get_permutation_ref().size()) return WRONG_SOLUTION_ERROR_CODE;
+    if (groups <= 0) throw invalid_argument("Groups below 1 exception");
+    if (solution.size() != prb->get_permutation_ref().size()) throw invalid_argument("Wrong solution size");
 
     int current_location_id = prb->get_depot()-1;
     int goal_location_id;

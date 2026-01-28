@@ -41,10 +41,12 @@ public:
     };
 
     void set_groups(const int value) {
+        if (value <= 0) throw invalid_argument("Groups below 1 exception");
         this->groups = value;
     };
 
     void set_thread_count(const int value) {
+        if (value <= 0) throw invalid_argument("Thread count below 1 exception");
         this->thread_count = value;
     }
 protected:

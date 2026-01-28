@@ -30,18 +30,22 @@ optimization_algorithm(eval, prb) {
 }
 
 void genetic_algorithm::set_round_count(const int value) {
+    if (value <= 0) throw invalid_argument("Round count below 1 exception");
     this->round_count = value;
 }
 
 void genetic_algorithm::set_population_size(const int value) {
+    if (value <= 0) throw invalid_argument("Population size below 1 exception");
     this->population_size = value;
 }
 
 void genetic_algorithm::set_cross_prob(const double value) {
+    if (value < 0) throw invalid_argument("Cross probability below 0 exception");
     this->cross_prob = value;
 }
 
 void genetic_algorithm::set_mutation_prob(const double value) {
+    if (value < 0) throw invalid_argument("Mutation probability below 0 exception");
     this->mutation_prob = value;
 }
 

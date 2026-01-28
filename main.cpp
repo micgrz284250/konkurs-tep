@@ -16,7 +16,7 @@ int main() {
 
     constexpr int thread_count = 4;
     constexpr int groups = 19;
-    constexpr int round_count = 10000;
+    constexpr int round_count = 2000;
     constexpr int population_size = 1000;
 
     my_smart_pointer<genetic_algorithm> op = optimization_algorithm::get_optimization_algorithm_pointer<genetic_algorithm>(eval, prb, groups);
@@ -27,8 +27,10 @@ int main() {
     for (int j = 0; j < 5; j++) {
         vector result = op->optimize();
 
-        for (int i = 0; i < result.size() - 1; i++) cout << result[i] << ",";
-        cout << result[result.size() - 1] << endl;
+        if (!result.empty()) {
+            for (int i = 0; i < result.size() - 1; i++) cout << result[i] << ",";
+            cout << result[result.size() - 1] << endl;
+        }
     }
     return 0;
 }

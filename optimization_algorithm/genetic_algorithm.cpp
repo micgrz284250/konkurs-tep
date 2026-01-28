@@ -84,7 +84,7 @@ vector<int> genetic_algorithm::optimize() {
 
     // symulacja krzyżowania i mutowania
     for (int i = 0; i < round_count; i++) {
-
+        if (i % 1000 == 0) cout << i << endl;
         // tworzymy wektor nowej populacji i rezerwujemy dla niego rozmiar
         vector<individual> new_population(population_size);
 
@@ -127,13 +127,18 @@ vector<int> genetic_algorithm::optimize() {
     vector<int> best_solution;
 
     for (auto &solution : thread_best_solutions) {
-        if (!solution.is_evaluated()) solution.evaluate(eval, prb);
-        if (solution.get_fitness() < best_fitness) {
-            best_fitness = solution.get_fitness();
-            best_solution = solution.get_genotype_ref();
+        if (!solution.get_genotype_ref().empty()) {
+            if (!solution.is_evaluated()) solution.evaluate(eval, prb);
+            if (solution.get_fitness() < best_fitness) {
+                best_fitness = solution.get_fitness();
+                best_solution = solution.get_genotype_ref();
+            }
         }
     }
-
+    if (best_fitness == INFINITY) {
+        cout << "No solution found" << endl;
+        return {};
+    }
     cout << eval->evaluate(best_solution, prb, groups) << endl;
     return best_solution;
 }

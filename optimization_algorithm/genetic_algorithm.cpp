@@ -20,13 +20,13 @@ optimization_algorithm(eval, prb) {
     this->mutation_prob = MUTATION_PROB;
 }
 
-genetic_algorithm::genetic_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem>& prb, const int groups, const int round_count, const int population_size, const double cross_prob, const double mutation_prob) :
+genetic_algorithm::genetic_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem>& prb, const int groups, const double cross_prob, const double mutation_prob) :
 optimization_algorithm(eval, prb) {
     this->groups = groups;
-    this->round_count = round_count;
-    this->population_size = population_size;
     this->cross_prob = cross_prob;
     this->mutation_prob = mutation_prob;
+    this->round_count = 0;
+    this->population_size = 0;
 }
 
 void genetic_algorithm::set_round_count(const int value) {

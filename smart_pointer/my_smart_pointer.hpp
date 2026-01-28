@@ -20,7 +20,20 @@ public:
         counter->add();
     }
 
+    template <derived_from<T> U>
+    my_smart_pointer(U *ptr) {
+        this->ptr = ptr;
+        counter = new ref_counter();
+    }
+
     my_smart_pointer(const my_smart_pointer &other) {
+        this->ptr = other.ptr;
+        this->counter = other.counter;
+        counter->add();
+    }
+
+    template <derived_from<T> U>
+    my_smart_pointer(const my_smart_pointer<U> &other) {
         this->ptr = other.ptr;
         this->counter = other.counter;
         counter->add();
@@ -31,13 +44,6 @@ public:
         this->counter = other.counter;
         other.ptr = nullptr;
         other.counter = nullptr;
-    }
-
-    template <derived_from<T> U>
-    my_smart_pointer(const my_smart_pointer<U> &other) {
-        this->ptr = other.ptr;
-        this->counter = other.counter;
-        counter->add();
     }
 
     ~my_smart_pointer() {

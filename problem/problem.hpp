@@ -16,7 +16,7 @@ public:
     virtual ~problem() = default;
 
     template <typename T>
-    static my_smart_pointer<T> get_problem(const string &path) {
+    static my_smart_pointer<T> get_problem_pointer(const string &path) {
         auto prb = my_smart_pointer<T>(new T());
         prb->load_problem(path);
         return prb;

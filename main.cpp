@@ -10,7 +10,7 @@ using namespace std;
 
 int main() {
     const std::string path = "../data/lcvrp/Vrp-Set-P/P-n19-k2.lcvrp";
-    my_smart_pointer<problem> prb = problem::get_problem<euc_matrix_problem>(path);
+    my_smart_pointer<problem> prb = problem::get_problem_pointer<euc_matrix_problem>(path);
     my_smart_pointer<evaluator> eval(new evaluator_implementation());
 
     constexpr int thread_count = 4;
@@ -18,8 +18,10 @@ int main() {
     constexpr int round_count = 10000;
     constexpr int population_size = 1000;
 
-    genetic_algorithm ga(eval, prb, groups, round_count, population_size);
-    ga.set_thread_count(thread_count);
+    my_smart_pointer<genetic_algorithm> op = optimization_algorithm::get_optimization_algorithm_pointer<genetic_algorithm>(eval, prb, groups);
+    op->set_thread_count(thread_count);
+    op->set_round_count(round_count);
+    op->set_population_size(population_size);
 
     cout << "depot = " << "(" << get<0>(prb->get_coordinates_ref()[0]) << ", " << get<1>(prb->get_coordinates_ref()[0]) << ")" << endl;
     for (int i = 0; i < prb->get_permutation_ref().size(); i++) {
@@ -28,7 +30,7 @@ int main() {
     }
 
     for (int j = 0; j < 5; j++) {
-        vector result = ga.optimize();
+        vector result = op->optimize();
 
         for (int i = 0; i < result.size() - 1; i++) cout << result[i] << ",";
         cout << result[result.size() - 1] << endl;

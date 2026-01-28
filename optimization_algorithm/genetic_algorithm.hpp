@@ -13,11 +13,8 @@
 using namespace std;
 
 class genetic_algorithm : public optimization_algorithm {
+    friend class optimization_algorithm;
 public:
-    genetic_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem> &prb);
-
-    genetic_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem> &prb, int groups, int round_count, int population_size, double cross_prob = CROSS_PROB, double mutation_prob = MUTATION_PROB);
-
     void set_round_count(int value);
 
     void set_population_size(int value);
@@ -32,6 +29,10 @@ private:
     int population_size;
     double cross_prob;
     double mutation_prob;
+
+    genetic_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem> &prb);
+
+    genetic_algorithm(const my_smart_pointer<evaluator>& eval, const my_smart_pointer<problem> &prb, int groups, double cross_prob = CROSS_PROB, double mutation_prob = MUTATION_PROB);
 
     vector<individual> cross(vector<individual> &population, mt19937 &rng);
 

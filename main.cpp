@@ -4,17 +4,18 @@
 #include "evaluator/evaluator_implementation.hpp"
 #include "optimization_algorithm/genetic_algorithm.hpp"
 #include "problem/euc_matrix_problem.hpp"
+#include "problem/explicit_matrix_problem.hpp"
 #include "problem/problem.hpp"
 
 using namespace std;
 
 int main() {
-    const std::string path = "../data/lcvrp/Vrp-Set-P/P-n19-k2.lcvrp";
-    my_smart_pointer<problem> prb = problem::get_problem_pointer<euc_matrix_problem>(path);
+    const std::string path = "../data/lcvrp/Vrp-Set-D/Loggi-n601-k19.lcvrp";
+    my_smart_pointer<problem> prb = problem::get_problem_pointer<explicit_matrix_problem>(path);
     my_smart_pointer<evaluator> eval(new evaluator_implementation());
 
     constexpr int thread_count = 4;
-    constexpr int groups = 2;
+    constexpr int groups = 19;
     constexpr int round_count = 10000;
     constexpr int population_size = 1000;
 

@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <thread>
+#include <stdexcept>
 
 #include "genetic_algorithm.hpp"
 #include "../evaluator/evaluator_implementation.hpp"

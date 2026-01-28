@@ -62,8 +62,9 @@ int explicit_matrix_problem::load_problem(const string& path) {
                 this->depot = stoi(line);
             }
             else if (line.find("EDGE_WEIGHT_SECTION") != string::npos) {
-                for (int i = 0; i < this->dimension; ++i) {
+                for (int i = 0; i < this->dimension - 1; ++i) {
                     getline(problem_file, line);
+                    distance_matrix.emplace_back();
                     stringstream ss(line);
                     double distance;
                     while (ss >> distance) {
@@ -77,7 +78,7 @@ int explicit_matrix_problem::load_problem(const string& path) {
     if (name == SECTION_NOT_LOADED_STRING || edge_type == SECTION_NOT_LOADED_STRING) return FILE_LOAD_PROBLEM;
     if (dimension == SECTION_NOT_LOADED_INT || capacity == SECTION_NOT_LOADED_INT || depot == SECTION_NOT_LOADED_INT) return FILE_LOAD_PROBLEM;
     if (permutation.size() != dimension - 1) return FILE_LOAD_PROBLEM;
-    if (demands.size() != dimension - 1) return FILE_LOAD_PROBLEM;
+    if (demands.size() != dimension) return FILE_LOAD_PROBLEM;
     if (distance_matrix.size() != dimension - 1) return FILE_LOAD_PROBLEM;
 
     return FILE_LOADED_SUCCESSFULLY;

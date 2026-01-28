@@ -21,4 +21,5 @@ add_executable(konkurs main.cpp
         optimization_algorithm/optimization_algorithm.hpp
         problem/euc_matrix_problem.cpp
         problem/euc_matrix_problem.hpp
+        problem/explicit_matrix_problem.cpp
 )

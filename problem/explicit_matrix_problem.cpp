@@ -1,21 +1,18 @@
 //
-// Created by mkgrz on 17.01.2026.
+// Created by micha-grzebielec on 28.01.2026.
 //
 
-#include "euc_matrix_problem.hpp"
+#include "explicit_matrix_problem.hpp"
 
+#include <cstring>
 #include <fstream>
-#include <iostream>
-#include <sstream>
-#include <cmath>
+#include <regex>
 
-using namespace std;
-
-euc_matrix_problem::euc_matrix_problem() {
-    this->coordinates.clear();
+explicit_matrix_problem::explicit_matrix_problem() {
+    this->distance_matrix.clear();
 }
 
-int euc_matrix_problem::load_problem(const string& path) {
+int explicit_matrix_problem::load_problem(const string& path) {
     ifstream problem_file(path);
 
     if (!problem_file.is_open()) {
@@ -64,15 +61,14 @@ int euc_matrix_problem::load_problem(const string& path) {
                 getline(problem_file, line);
                 this->depot = stoi(line);
             }
-            else if (line.find("NODE_COORD_SECTION") != string::npos) {
+            else if (line.find("EDGE_WEIGHT_SECTION") != string::npos) {
                 for (int i = 0; i < this->dimension; ++i) {
                     getline(problem_file, line);
-                    size_t space_pos = line.find(' ');
-                    string s_coordinates = line.substr(space_pos + 1);
-                    space_pos = s_coordinates.find(' ');
-                    double x = stod(s_coordinates.substr(0, space_pos));
-                    double y = stod(s_coordinates.substr(space_pos + 1));
-                    this->coordinates.emplace_back(x, y);
+                    stringstream ss(line);
+                    double distance;
+                    while (ss >> distance) {
+                        this->distance_matrix[i].push_back(distance);
+                    }
                 }
             }
         }
@@ -82,17 +78,15 @@ int euc_matrix_problem::load_problem(const string& path) {
     if (dimension == SECTION_NOT_LOADED_INT || capacity == SECTION_NOT_LOADED_INT || depot == SECTION_NOT_LOADED_INT) return FILE_LOAD_PROBLEM;
     if (permutation.size() != dimension - 1) return FILE_LOAD_PROBLEM;
     if (demands.size() != dimension - 1) return FILE_LOAD_PROBLEM;
-    if (coordinates.size() != dimension) return FILE_LOAD_PROBLEM;
+    if (distance_matrix.size() != dimension - 1) return FILE_LOAD_PROBLEM;
 
     return FILE_LOADED_SUCCESSFULLY;
 }
 
-double euc_matrix_problem::get_distance(const int client_1_id, const int client_2_id) {
-    if (client_1_id < 0 || client_1_id >= get_coordinates_ref().size()) throw invalid_argument("Client_1_id out of bounds");
-    if (client_2_id < 0 || client_2_id >= get_coordinates_ref().size()) throw invalid_argument("Client_2_id out of bounds");
-
-    const tuple<double, double> client_1 = get_coordinates_ref()[client_1_id];
-    const tuple<double, double> client_2 = get_coordinates_ref()[client_2_id];
-
-    return sqrt(pow(get<0>(client_1) - get<0>(client_2), 2) + pow(get<1>(client_1) - get<1>(client_2), 2));
+double explicit_matrix_problem::get_distance(int client_1_id, int client_2_id) {
+    if (client_1_id == client_2_id) return 0;
+    if (client_1_id > client_2_id) {
+        return distance_matrix[client_1_id][client_2_id];
+    }
+    return distance_matrix[client_2_id][client_1_id];
 }

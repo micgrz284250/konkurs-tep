@@ -7,8 +7,6 @@
 #include <cmath>
 #include <iostream>
 
-#include "../constants.hpp"
-
 double evaluator_implementation::evaluate(vector<int>& solution, my_smart_pointer<problem>& prb, const int groups) {
     double fitness = 0.0;
 

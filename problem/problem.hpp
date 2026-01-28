@@ -54,22 +54,17 @@ public:
         return depot;
     }
 
-    vector<tuple<double, double>> &get_coordinates_ref() {
-        return coordinates;
-    }
-
     virtual double get_distance(int client_1_id, int client_2_id) = 0;
 
     virtual int load_problem(const string& path) = 0;
 protected:
     string name;
-    int dimension;
     string edge_type;
+    int dimension;
     int capacity;
+    int depot;
     vector<int> permutation;
     vector<int> demands;
-    int depot;
-    vector<tuple<double, double>> coordinates;
 
     problem() {
         this->name = SECTION_NOT_LOADED_STRING;
@@ -79,7 +74,6 @@ protected:
         this->depot = SECTION_NOT_LOADED_INT;
         this->permutation.clear();
         this->demands.clear();
-        this->coordinates.clear();
     }
 };
 

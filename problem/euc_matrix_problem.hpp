@@ -9,10 +9,21 @@
 using namespace std;
 
 class euc_matrix_problem : public problem {
+    friend class problem;
 public:
     ~euc_matrix_problem() override = default;
+
     int load_problem(const string& path) override;
+
     double get_distance(int client_1_id, int client_2_id) override;
+
+    vector<tuple<double, double>> &get_coordinates_ref() {
+        return coordinates;
+    }
+private:
+    euc_matrix_problem();
+
+    vector<tuple<double, double>> coordinates;
 };
 
 

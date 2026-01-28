@@ -23,11 +23,11 @@ int main() {
     op->set_round_count(round_count);
     op->set_population_size(population_size);
 
-    cout << "depot = " << "(" << get<0>(prb->get_coordinates_ref()[0]) << ", " << get<1>(prb->get_coordinates_ref()[0]) << ")" << endl;
-    for (int i = 0; i < prb->get_permutation_ref().size(); i++) {
-        int k = prb->get_permutation_ref()[i];
-        cout << prb->get_permutation_ref()[i] << ", " << "(" << get<0>(prb->get_coordinates_ref()[k - 1]) << ", " << get<1>(prb->get_coordinates_ref()[k - 1]) << ")" << endl;
-    }
+    // cout << "depot = " << "(" << get<0>(prb->get_coordinates_ref()[0]) << ", " << get<1>(prb->get_coordinates_ref()[0]) << ")" << endl;
+    // for (int i = 0; i < prb->get_permutation_ref().size(); i++) {
+    //     int k = prb->get_permutation_ref()[i];
+    //     cout << prb->get_permutation_ref()[i] << ", " << "(" << get<0>(prb->get_coordinates_ref()[k - 1]) << ", " << get<1>(prb->get_coordinates_ref()[k - 1]) << ")" << endl;
+    // }
 
     for (int j = 0; j < 5; j++) {
         vector result = op->optimize();

@@ -16,8 +16,6 @@ using namespace std;
 class evaluator_implementation : public evaluator {
 public:
     double evaluate(vector<int>& solution, my_smart_pointer<problem>& prb, int groups) override;
-
-    static double get_distance(my_smart_pointer<problem>& prb, int client_1_id, int client_2_id);
 };
 
 #endif //KONKURS_EVALUATOR_IMPLEMENTATION_HPP

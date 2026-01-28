@@ -115,51 +115,11 @@ vector<int> genetic_algorithm::optimize() {
         for (auto &thread : threads) if (thread.joinable()) thread.join();
         population = new_population;
         threads.clear();
-
-        // while (new_population.size() < population_size) {
-        //     vector<individual> children = cross(population);
-        //     new_population.insert(new_population.end(), children.begin(), children.end());
-        // }
-
-        // population = new_population;
-
-        // mutujemy
-        // for (int j = 0; j < thread_count; j++) {
-        //     threads.emplace_back([&population, &thread_mt19937](const int thread_id, const int thread_population_size){
-        //         // size 4
-        //         // then pop_size = 250
-        //         // begin index = 0 (0 * 250)
-        //         // end_index = 0 + 250
-        //         const int begin_index = thread_id * thread_population_size;
-        //         const int end_index = begin_index + thread_population_size;
-        //         for (int k = begin_index; k < end_index; k++) {
-        //             population[k].mutate(thread_mt19937[thread_id]);
-        //         }
-        //     }, j, thread_population_sizes[j]);
-        // }
-        // for (auto &thread : threads) if (thread.joinable()) thread.join();
-        // threads.clear();
     }
 
     //wybieramy najlepszego osobnika
     double best_fitness = INFINITY; // smaller fitness means better fitness
     vector<int> best_solution;
-
-    // vector<individual> thread_best_solutions(thread_count);
-    // for (int j = 0; j < thread_count; j++) {
-    //     threads.emplace_back([&population, &thread_best_solutions, this](const int thread_id, const int thread_population_size, const int thread_begin_index) {
-    //         const int thread_end_index = thread_begin_index + thread_population_size;
-    //         double thread_best_fitness = INFINITY;
-    //         for (int i = thread_begin_index; i < thread_end_index; i++) {
-    //             if (!population[i].is_evaluated()) population[i].evaluate(eval, prb);
-    //             if (population[i].get_fitness() < thread_best_fitness) {
-    //                 thread_best_fitness = population[i].get_fitness();
-    //                 thread_best_solutions[thread_id] = population[i];
-    //             }
-    //         }
-    //     }, j, thread_population_sizes[j], thread_begin_indexes[j]);
-    // }
-    // for (auto &thread : threads) if (thread.joinable()) thread.join();
 
     for (auto &solution : thread_best_solutions) {
         if (!solution.is_evaluated()) solution.evaluate(eval, prb);

@@ -54,6 +54,8 @@ public:
         return coordinates;
     }
 
+    virtual double get_distance(int client_1_id, int client_2_id) = 0;
+
     virtual void load_problem(const string& path) = 0;
 protected:
     string name;

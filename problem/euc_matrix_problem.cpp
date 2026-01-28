@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <cmath>
 
 using namespace std;
 
@@ -73,4 +74,11 @@ void euc_matrix_problem::load_problem(const string& path) {
             }
         }
     }
+}
+
+double euc_matrix_problem::get_distance(const int client_1_id, const int client_2_id) {
+    const tuple<double, double> client_1 = get_coordinates_ref()[client_1_id];
+    const tuple<double, double> client_2 = get_coordinates_ref()[client_2_id];
+
+    return sqrt(pow(get<0>(client_1) - get<0>(client_2), 2) + pow(get<1>(client_1) - get<1>(client_2), 2));
 }
